@@ -1,4 +1,4 @@
-name: CI
+name: Test
 on: [push]
 jobs:
   build:
@@ -13,7 +13,7 @@ jobs:
           node-version: '14.x'
 
       - name: Install Dependencies
-        run: npm ci
+        run: npm install
 
-      - name: Run Linting
-        run: npm run lint:fix
+      - name: Run Test
+        run: npm run test
