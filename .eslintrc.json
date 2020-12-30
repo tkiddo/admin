@@ -1,0 +1,17 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "react-app",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  }
+}
