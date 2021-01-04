@@ -15,16 +15,26 @@ const { Sider } = Layout;
 
 const { Header } = MyLayout;
 
+const { Content } = Layout;
+
 type Props = {
   children?: React.ReactNode;
 };
 
 export default function BaseLayout(props: Props): ReactElement {
   const [collapsed, setCollapsed] = useState(false);
+
+  const headerProps = {
+    fixed: true,
+    collapsed,
+    onCollapsedChange: () => {
+      setCollapsed(!collapsed);
+    },
+  };
   return (
     <Layout>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className={styles.logo}></div>
+      <Sider trigger={null} collapsible collapsed={collapsed} width={256}>
+        <div className={styles.logo}>Admin</div>
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
           <Menu.Item key="1" icon={<UserOutlined />}>
             nav 1
@@ -38,13 +48,8 @@ export default function BaseLayout(props: Props): ReactElement {
         </Menu>
       </Sider>
       <div className={styles.container}>
-        <Header
-          fixed={true}
-          collapsed={collapsed}
-          onCollapsedChange={() => {
-            setCollapsed(!collapsed);
-          }}
-        ></Header>
+        <Header {...headerProps}></Header>
+        <Content className={styles.content}></Content>
       </div>
     </Layout>
   );
