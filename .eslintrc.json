@@ -13,5 +13,8 @@
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     }
+  },
+  "rules": {
+    "linebreak-style": "off"
   }
 }
