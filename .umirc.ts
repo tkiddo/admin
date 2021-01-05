@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-04 09:00:32
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-05 10:16:31
+ * @LastEditTime: 2021-01-05 16:31:36
  * @Description:
  */
 import { defineConfig } from 'umi';
@@ -11,7 +11,13 @@ import { resolve } from 'path';
 export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
+    exclude: [],
   },
+  targets: {
+    chrome: 79,
+  },
+  devtool: 'eval',
+  dva: { immer: true },
   alias: {
     api: resolve(__dirname, './src/services/'),
     components: resolve(__dirname, './src/components'),

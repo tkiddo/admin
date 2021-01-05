@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-05 09:44:59
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-05 10:35:48
+ * @LastEditTime: 2021-01-05 15:29:35
  * @Description:
  */
 
@@ -18,9 +18,9 @@ const LoginModel: CommonModelType<LoginModelState> = {
     name: '123',
   },
   subscriptions: {
-    setup({ dispatch }): void {
-      dispatch({ type: 'login' });
-    },
+    // setup({ dispatch }): void {
+    //   dispatch({ type: 'login' });
+    // },
   },
   effects: {
     *login({ payload }, { call, put, select }) {

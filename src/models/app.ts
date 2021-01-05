@@ -2,20 +2,20 @@
  * @Author: tkiddo
  * @Date: 2021-01-05 10:32:23
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-05 11:07:27
+ * @LastEditTime: 2021-01-05 16:14:24
  * @Description:
  */
 import CommonModelType from '@/common/CommonModelType';
 import { history } from 'umi';
 
 interface AppModelState {
-  localtionPathname: string;
+  locationPathname: string;
 }
 
 const AppModel: CommonModelType<AppModelState> = {
   namespace: 'app',
   state: {
-    localtionPathname: '',
+    locationPathname: '',
   },
   subscriptions: {
     setup({ dispatch }): void {

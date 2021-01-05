@@ -13,7 +13,8 @@
       "@/*": ["src/*"],
       "@@/*": ["src/.umi/*"],
       "components": ["src/components/"],
-      "common": ["src/common/"]
+      "common": ["src/common/"],
+      "utils": ["src/utils"]
     },
     "allowSyntheticDefaultImports": true
   },
