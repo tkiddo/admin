@@ -7,7 +7,6 @@ import { withRouter, IRouteComponentProps } from 'umi';
 import BaseLayout from './BaseLayout';
 
 export default withRouter(({ location, children }: IRouteComponentProps) => {
-  console.log(location);
   return (
     <ConfigProvider locale={zh_CN}>
       <BaseLayout>{children}</BaseLayout>

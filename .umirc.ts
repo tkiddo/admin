@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-04 09:00:32
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-04 15:07:43
+ * @LastEditTime: 2021-01-05 10:16:31
  * @Description:
  */
 import { defineConfig } from 'umi';
@@ -15,6 +15,7 @@ export default defineConfig({
   alias: {
     api: resolve(__dirname, './src/services/'),
     components: resolve(__dirname, './src/components'),
+    common: resolve(__dirname, './src/common'),
     config: resolve(__dirname, './src/utils/config'),
     themes: resolve(__dirname, './src/themes'),
     utils: resolve(__dirname, './src/utils'),
