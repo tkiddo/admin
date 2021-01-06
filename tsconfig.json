@@ -12,7 +12,9 @@
     "paths": {
       "@/*": ["src/*"],
       "@@/*": ["src/.umi/*"],
-      "components": ["src/components/"]
+      "components": ["src/components/"],
+      "common": ["src/common/"],
+      "utils": ["src/utils"]
     },
     "allowSyntheticDefaultImports": true
   },

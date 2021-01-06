@@ -1,5 +1,5 @@
 import { Layout, Menu } from 'antd';
-import React, { ReactElement, useState } from 'react';
+import React, { useState, FC } from 'react';
 
 import {
   UserOutlined,
@@ -17,11 +17,7 @@ const { Header } = MyLayout;
 
 const { Content } = Layout;
 
-type Props = {
-  children?: React.ReactNode;
-};
-
-export default function BaseLayout(props: Props): ReactElement {
+const BaseLayout: FC = (props) => {
   const [collapsed, setCollapsed] = useState(false);
 
   const headerProps = {
@@ -49,8 +45,10 @@ export default function BaseLayout(props: Props): ReactElement {
       </Sider>
       <div className={styles.container}>
         <Header {...headerProps}></Header>
-        <Content className={styles.content}></Content>
+        <Content className={styles.content}>{props.children}</Content>
       </div>
     </Layout>
   );
-}
+};
+
+export default BaseLayout;
