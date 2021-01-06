@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-04 09:00:32
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-05 16:31:36
+ * @LastEditTime: 2021-01-06 11:23:00
  * @Description:
  */
 import { defineConfig } from 'umi';

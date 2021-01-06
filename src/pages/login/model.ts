@@ -2,21 +2,19 @@
  * @Author: tkiddo
  * @Date: 2021-01-05 09:44:59
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-05 15:29:35
+ * @LastEditTime: 2021-01-06 14:31:27
  * @Description:
  */
 
-import CommonModelType from '@/common/CommonModelType';
+import { CommonModelType } from 'common';
 
-export interface LoginModelState {
-  name: string;
-}
+import api from 'api';
 
-const LoginModel: CommonModelType<LoginModelState> = {
+const { loginUser } = api;
+
+const LoginModel: CommonModelType<any> = {
   namespace: 'login',
-  state: {
-    name: '123',
-  },
+  state: {},
   subscriptions: {
     // setup({ dispatch }): void {
     //   dispatch({ type: 'login' });
@@ -24,7 +22,8 @@ const LoginModel: CommonModelType<LoginModelState> = {
   },
   effects: {
     *login({ payload }, { call, put, select }) {
-      yield console.log('login');
+      const data = yield call(loginUser, payload);
+      console.log(data);
     },
   },
 };

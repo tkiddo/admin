@@ -1,25 +1,23 @@
 import React, { FC, Fragment } from 'react';
 import { Button, Row, Input, Form } from 'antd';
-import { connect, ConnectProps, Loading } from 'umi';
+import { connect, Loading, Dispatch } from 'umi';
 
 import styles from './index.less';
 
 import config from '@/utils/config';
 
-const FormItem = Form.Item;
+import { CommonPageProps } from 'common';
 
-interface PageProps extends ConnectProps {
-  loading: boolean;
-}
+const FormItem = Form.Item;
 
 export interface LoginFormValue {
   username: string;
   password: string;
 }
 
-const Login: FC<PageProps> = ({ loading }) => {
+const Login: FC<CommonPageProps> = ({ loading, dispatch }) => {
   const handleOk = (values: LoginFormValue) => {
-    console.log(values);
+    dispatch({ type: 'login/login', payload: values });
   };
   return (
     <Fragment>
@@ -50,6 +48,9 @@ const Login: FC<PageProps> = ({ loading }) => {
   );
 };
 
-export default connect(({ loading }: { loading: Loading }) => ({
-  loading: loading.models.login,
-}))(Login);
+export default connect(
+  ({ loading, dispatch }: { loading: Loading; dispatch: Dispatch }) => ({
+    loading: loading.models.login,
+    dispatch,
+  }),
+)(Login);
