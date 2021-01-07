@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-04 09:00:32
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-05 16:31:36
+ * @LastEditTime: 2021-01-07 13:38:02
  * @Description:
  */
 import { defineConfig } from 'umi';
@@ -16,7 +16,7 @@ export default defineConfig({
   targets: {
     chrome: 79,
   },
-  devtool: 'eval',
+  devtool: 'source-map',
   dva: { immer: true },
   alias: {
     api: resolve(__dirname, './src/services/'),
