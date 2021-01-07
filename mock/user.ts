@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-06 13:44:41
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-07 11:06:46
+ * @LastEditTime: 2021-01-07 14:15:35
  * @Description:
  */
 
@@ -12,21 +12,43 @@ import qs from 'qs';
 
 const { ApiPrefix } = Constant;
 
+const EnumRoleType = {
+  ADMIN: 'admin',
+  DEFAULT: 'guest',
+  DEVELOPER: 'developer',
+};
+
+const userPermission = {
+  DEFAULT: {
+    visit: ['1', '2', '21', '7', '5', '51', '52', '53'],
+    role: EnumRoleType.DEFAULT,
+  },
+  ADMIN: {
+    role: EnumRoleType.ADMIN,
+  },
+  DEVELOPER: {
+    role: EnumRoleType.DEVELOPER,
+  },
+};
+
 const users = [
   {
     id: 0,
     username: 'admin',
     password: 'admin',
+    permissions: userPermission.ADMIN,
   },
   {
     id: 1,
     username: 'guest',
     password: 'guest',
+    permissions: userPermission.ADMIN,
   },
 ];
 
 export default {
   [`POST ${ApiPrefix}/user/login`](req: Request, res: Response): void {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     const { username, password } = req.body;
     const user = users.filter((item) => item.username === username);
 
@@ -47,6 +69,7 @@ export default {
     }
   },
   [`GET ${ApiPrefix}/user`](req: Request, res: Response) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     const cookie = req.headers.cookie || '';
     const cookies = qs.parse(cookie.replace(/\s/g, ''), { delimiter: ';' });
     const response: { [key: string]: unknown } = {};

@@ -1,5 +1,5 @@
 import { Layout, Menu } from 'antd';
-import React, { useState, FC } from 'react';
+import React, { useState, FC, memo } from 'react';
 
 import {
   UserOutlined,
@@ -51,4 +51,4 @@ const BaseLayout: FC = (props) => {
   );
 };
 
-export default BaseLayout;
+export default memo(BaseLayout);

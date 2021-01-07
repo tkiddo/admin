@@ -1,4 +1,4 @@
-import React, { FC, Fragment } from 'react';
+import React, { FC, Fragment, memo } from 'react';
 import { Button, Row, Input, Form } from 'antd';
 import { connect, Loading, Dispatch } from 'umi';
 
@@ -53,4 +53,4 @@ export default connect(
     loading: loading.models.login,
     dispatch,
   }),
-)(Login);
+)(memo(Login));

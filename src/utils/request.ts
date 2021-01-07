@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-06 10:02:04
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-06 14:24:02
+ * @LastEditTime: 2021-01-07 14:07:53
  * @Description:
  */
 
@@ -19,7 +19,6 @@ const request = (options: AxiosRequestConfig): Promise<Result> => {
   return axios(options)
     .then((res: AxiosResponse) => {
       const { statusText, status, data } = res;
-
       return Promise.resolve({
         success: true,
         message: statusText,

@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-06 09:56:05
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-06 14:26:10
+ * @LastEditTime: 2021-01-07 14:05:09
  * @Description:
  */
 
@@ -32,7 +32,7 @@ const gen = (params: string): RequestFunction => {
   }
 
   return function (data) {
-    request({
+    return request({
       url,
       data,
       method,
