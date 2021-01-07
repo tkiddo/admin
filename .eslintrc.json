@@ -16,6 +16,7 @@
   },
   "rules": {
     "linebreak-style": "off",
-    "import/no-anonymous-default-export": [2, { "allowObject": true }]
+    "import/no-anonymous-default-export": [2, { "allowObject": true }],
+    "@typescript-eslint/explicit-module-boundary-types": "off"
   }
 }

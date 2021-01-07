@@ -24,10 +24,14 @@
     "@ant-design/pro-layout": "^6.5.0",
     "@types/axios": "^0.14.0",
     "@types/classnames": "^2.2.11",
+    "@types/qs": "^6.9.5",
+    "@types/store": "^2.0.2",
     "@umijs/preset-react": "1.x",
     "antd": "^4.9.4",
     "axios": "^0.21.1",
     "classnames": "^2.2.6",
+    "qs": "^6.9.4",
+    "store": "^2.0.12",
     "umi": "^3.3.3"
   },
   "devDependencies": {
