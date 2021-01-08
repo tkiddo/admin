@@ -1,6 +1,6 @@
 import React, { FC, memo, Fragment } from 'react';
 
-import { NavLink, withRouter } from 'umi';
+import { NavLink } from 'umi';
 
 import iconMap from '@/utils/iconMap';
 
@@ -37,7 +37,7 @@ const generateMenus = (data: IMenuItem[]) => {
           title={
             <Fragment>
               {item.icon && iconMap[item.icon]}
-              <span>{item.name}</span>
+              <span>{item.zh.name}</span>
             </Fragment>
           }
         >
@@ -49,7 +49,7 @@ const generateMenus = (data: IMenuItem[]) => {
       <Menu.Item key={item.id}>
         <NavLink to={item.route || '#'}>
           {item.icon && iconMap[item.icon]}
-          <span>{item.name}</span>
+          <span>{item.zh.name}</span>
         </NavLink>
       </Menu.Item>
     );
