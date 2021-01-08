@@ -1,24 +1,21 @@
-import { Layout, Menu } from 'antd';
+import { Layout } from 'antd';
 import React, { useState, FC, memo } from 'react';
-
-import {
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-} from '@ant-design/icons';
+import store from 'store';
 
 import { MyLayout } from 'components';
+import { IMenuItem } from '@/components/layout/Menu';
 
 import styles from './BaseLayout.less';
 
-const { Sider } = Layout;
-
-const { Header } = MyLayout;
+const { Header, Sider } = MyLayout;
 
 const { Content } = Layout;
 
 const BaseLayout: FC = (props) => {
   const [collapsed, setCollapsed] = useState(false);
+
+  const routeList = store.get('routeList') || [];
+  const menus = routeList.filter((_: IMenuItem) => _.menuParentId !== '-1');
 
   const headerProps = {
     fixed: true,
@@ -27,22 +24,15 @@ const BaseLayout: FC = (props) => {
       setCollapsed(!collapsed);
     },
   };
+
+  const siderProps = {
+    width: 256,
+    collapsed,
+    menus,
+  };
   return (
     <Layout>
-      <Sider trigger={null} collapsible collapsed={collapsed} width={256}>
-        <div className={styles.logo}>Admin</div>
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-          <Menu.Item key="1" icon={<UserOutlined />}>
-            nav 1
-          </Menu.Item>
-          <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-            nav 2
-          </Menu.Item>
-          <Menu.Item key="3" icon={<UploadOutlined />}>
-            nav 3
-          </Menu.Item>
-        </Menu>
-      </Sider>
+      <Sider {...siderProps}></Sider>
       <div className={styles.container}>
         <Header {...headerProps}></Header>
         <Content className={styles.content}>{props.children}</Content>
