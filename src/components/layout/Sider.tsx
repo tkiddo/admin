@@ -4,12 +4,14 @@ import styles from './Sider.less';
 
 import config from 'config';
 
-import SiderMenu, { IMenuItem } from './Menu';
+import SiderMenu from './Menu';
+
+import { IRoute } from 'common';
 
 interface IProps {
   width: number;
   collapsed: boolean;
-  menus: IMenuItem[];
+  menus: IRoute[];
 }
 
 const Sider: FC<IProps> = (props) => {

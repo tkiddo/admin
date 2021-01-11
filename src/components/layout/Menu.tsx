@@ -8,27 +8,16 @@ import { Menu } from 'antd';
 
 import { arrayToTree } from 'utils';
 
-export interface IMenuItem {
-  id: string;
-  breadcrumbParentId: string;
-  menuParentId: string;
-  name: string;
-  zh: {
-    name: string;
-  };
-  icon: string;
-  route: string;
-  children: IMenuItem[];
-}
+import { IRoute } from 'common';
 
 interface IProps {
-  menus: IMenuItem[];
+  menus: IRoute[];
   collapsed: boolean;
 }
 
 const { SubMenu } = Menu;
 
-const generateMenus = (data: IMenuItem[]) => {
+const generateMenus = (data: IRoute[]) => {
   return data.map((item) => {
     if (item.children) {
       return (
@@ -37,7 +26,7 @@ const generateMenus = (data: IMenuItem[]) => {
           title={
             <Fragment>
               {item.icon && iconMap[item.icon]}
-              <span>{item.zh.name}</span>
+              <span>{item.name}</span>
             </Fragment>
           }
         >
@@ -49,7 +38,7 @@ const generateMenus = (data: IMenuItem[]) => {
       <Menu.Item key={item.id}>
         <NavLink to={item.route || '#'}>
           {item.icon && iconMap[item.icon]}
-          <span>{item.zh.name}</span>
+          <span>{item.name}</span>
         </NavLink>
       </Menu.Item>
     );

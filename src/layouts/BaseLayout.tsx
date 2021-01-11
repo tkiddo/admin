@@ -1,21 +1,50 @@
 import { Layout } from 'antd';
 import React, { useState, FC, memo } from 'react';
 import store from 'store';
+import { useLocation } from 'umi';
 
 import { MyLayout } from 'components';
-import { IMenuItem } from '@/components/layout/Menu';
+import { IRoute } from 'common';
+
+import { getLocale } from 'utils';
 
 import styles from './BaseLayout.less';
 
-const { Header, Sider } = MyLayout;
+import { pathToRegexp } from 'path-to-regexp';
+
+import Error from '../pages/404';
+
+const { Header, Sider, Bread } = MyLayout;
 
 const { Content } = Layout;
 
 const BaseLayout: FC = (props) => {
+  const permissions = store.get('permissions');
   const [collapsed, setCollapsed] = useState(false);
 
   const routeList = store.get('routeList') || [];
-  const menus = routeList.filter((_: IMenuItem) => _.menuParentId !== '-1');
+
+  const lang = getLocale();
+  const newRouteList =
+    lang !== 'en'
+      ? routeList.map((item: IRoute) => {
+          const { name, ...other } = item;
+          return {
+            ...other,
+            name: (item[lang] || {}).name || name,
+          };
+        })
+      : routeList;
+  const menus = newRouteList.filter((_: IRoute) => _.menuParentId !== '-1');
+
+  const location = useLocation();
+  const currentRoute = newRouteList.find((item: IRoute) => {
+    return item.route && pathToRegexp(item.route).exec(location.pathname);
+  });
+
+  const hasPermission = currentRoute
+    ? permissions.visit.includes(currentRoute.id)
+    : false;
 
   const headerProps = {
     fixed: true,
@@ -35,7 +64,10 @@ const BaseLayout: FC = (props) => {
       <Sider {...siderProps}></Sider>
       <div className={styles.container}>
         <Header {...headerProps}></Header>
-        <Content className={styles.content}>{props.children}</Content>
+        <Content className={styles.content}>
+          <Bread routeList={newRouteList} />
+          {hasPermission ? props.children : <Error />}
+        </Content>
       </div>
     </Layout>
   );

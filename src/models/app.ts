@@ -2,13 +2,14 @@
  * @Author: tkiddo
  * @Date: 2021-01-05 10:32:23
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-08 13:55:27
+ * @LastEditTime: 2021-01-11 10:10:10
  * @Description:
  */
 import CommonModelType from '@/common/CommonModelType';
 import { history } from 'umi';
 import store from 'store';
 import api from 'api';
+import { pathToRegexp } from 'path-to-regexp';
 import { ROLE_TYPE } from '@/utils/constants';
 import { queryLayout } from 'utils';
 
@@ -76,9 +77,11 @@ const AppModel: CommonModelType<AppModelState> = {
         store.set('permissions', permissions);
         store.set('user', user);
         store.set('isInit', true);
-        history.push({
-          pathname: '/dashboard',
-        });
+        if (pathToRegexp(['/', '/login']).exec(window.location.pathname)) {
+          history.push({
+            pathname: '/dashboard',
+          });
+        }
       } else if (queryLayout(locationPathname) !== 'public') {
         history.push({
           pathname: '/login',
