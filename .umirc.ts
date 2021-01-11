@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-04 09:00:32
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-07 13:38:02
+ * @LastEditTime: 2021-01-08 10:38:50
  * @Description:
  */
 import { defineConfig } from 'umi';
@@ -16,7 +16,7 @@ export default defineConfig({
   targets: {
     chrome: 79,
   },
-  devtool: 'source-map',
+  devtool: 'eval',
   dva: { immer: true },
   alias: {
     api: resolve(__dirname, './src/services/'),
@@ -27,6 +27,15 @@ export default defineConfig({
     utils: resolve(__dirname, './src/utils'),
   },
   extraBabelPlugins: [
+    [
+      'import',
+      {
+        libraryName: 'lodash',
+        libraryDirectory: '',
+        camel2DashComponentName: false,
+      },
+      'lodash',
+    ],
     [
       'import',
       {

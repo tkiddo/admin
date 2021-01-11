@@ -1,5 +1,5 @@
 import { Layout } from 'antd';
-import React, { ReactElement } from 'react';
+import React, { FC, memo } from 'react';
 import classnames from 'classnames';
 import styles from './Header.less';
 
@@ -11,7 +11,7 @@ interface IProps {
   onCollapsedChange(): void;
 }
 
-export default function Header(props: IProps): ReactElement {
+const Header: FC<IProps> = (props) => {
   const { fixed, collapsed, onCollapsedChange } = props;
   return (
     <Layout.Header
@@ -26,4 +26,6 @@ export default function Header(props: IProps): ReactElement {
       <div className={styles.rightContainer}></div>
     </Layout.Header>
   );
-}
+};
+
+export default memo(Header);
