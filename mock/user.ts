@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-06 13:44:41
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-07 14:15:35
+ * @LastEditTime: 2021-01-11 14:40:31
  * @Description:
  */
 
@@ -20,7 +20,7 @@ const EnumRoleType = {
 
 const userPermission = {
   DEFAULT: {
-    visit: ['1', '2', '21', '7', '5', '51', '52', '53'],
+    visit: ['1', '2'],
     role: EnumRoleType.DEFAULT,
   },
   ADMIN: {
@@ -42,7 +42,7 @@ const users = [
     id: 1,
     username: 'guest',
     password: 'guest',
-    permissions: userPermission.ADMIN,
+    permissions: userPermission.DEFAULT,
   },
 ];
 
@@ -59,7 +59,7 @@ export default {
         'token',
         JSON.stringify({ id: user[0].id, deadline: now.getTime() }),
         {
-          maxAge: 900000,
+          maxAge: 9000,
           httpOnly: true,
         },
       );
@@ -67,6 +67,10 @@ export default {
     } else {
       res.status(400).end();
     }
+  },
+  [`GET ${ApiPrefix}/user/logout`](req: Request, res: Response): void {
+    res.clearCookie('token');
+    res.status(200).end();
   },
   [`GET ${ApiPrefix}/user`](req: Request, res: Response) {
     res.setHeader('Access-Control-Allow-Origin', '*');
