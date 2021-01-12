@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-05 10:32:23
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-11 14:47:07
+ * @LastEditTime: 2021-01-12 09:14:25
  * @Description:
  */
 import CommonModelType from '@/common/CommonModelType';
@@ -18,6 +18,14 @@ const { queryUserInfo, queryRouteList, logoutUser } = api;
 interface AppModelState {
   locationPathname: string;
 }
+
+const goDashboard = () => {
+  if (pathToRegexp(['/', '/login']).exec(window.location.pathname)) {
+    history.push({
+      pathname: '/dashboard',
+    });
+  }
+};
 
 const AppModel: CommonModelType<AppModelState> = {
   namespace: 'app',
@@ -43,9 +51,7 @@ const AppModel: CommonModelType<AppModelState> = {
     *query({ payload }, { call, put, select }) {
       const isInit = store.get('isInit');
       if (isInit) {
-        history.push({
-          pathname: '/dashboard',
-        });
+        goDashboard();
         return;
       }
       const { locationPathname } = yield select((s: any) => s.app);
@@ -77,11 +83,7 @@ const AppModel: CommonModelType<AppModelState> = {
         store.set('permissions', permissions);
         store.set('user', user);
         store.set('isInit', true);
-        if (pathToRegexp(['/', '/login']).exec(window.location.pathname)) {
-          history.push({
-            pathname: '/dashboard',
-          });
-        }
+        goDashboard();
       } else if (queryLayout(locationPathname) !== 'public') {
         history.push({
           pathname: '/login',

@@ -47,8 +47,7 @@ const Bread: FC<IProps> = (props) => {
   );
 
   // Find the breadcrumb navigation of the current route match and all its ancestors.
-
-  const paths: pathItem[] = currentRoute
+  const paths = currentRoute
     ? queryAncestors(routeList, currentRoute, 'breadcrumbParentId').reverse()
     : [
         routeList[0],
@@ -58,10 +57,9 @@ const Bread: FC<IProps> = (props) => {
         },
       ];
 
-  console.log(paths);
   return (
     <Breadcrumb className={styles.bread}>
-      {generateBreadcrumbs(paths)}
+      {generateBreadcrumbs(paths as pathItem[])}
     </Breadcrumb>
   );
 };
