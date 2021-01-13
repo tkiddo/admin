@@ -2,15 +2,35 @@
  * @Author: tkiddo
  * @Date: 2021-01-06 13:44:41
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-11 14:40:31
+ * @LastEditTime: 2021-01-13 15:18:08
  * @Description:
  */
 
 import { Constant } from './_utils';
 import { Request, Response } from 'umi';
+import Mock from 'mockjs';
 import qs from 'qs';
 
 const { ApiPrefix } = Constant;
+
+const usersListData = Mock.mock({
+  'data|80-100': [
+    {
+      id: '@id',
+      name: '@name',
+      nickName: '@last',
+      phone: /^1[34578]\d{9}$/,
+      'age|11-99': 1,
+      address: '@county(true)',
+      isMale: '@boolean',
+      email: '@email',
+      createTime: '@datetime',
+      avatar: '',
+    },
+  ],
+});
+
+const database = usersListData.data;
 
 const EnumRoleType = {
   ADMIN: 'admin',
@@ -95,5 +115,43 @@ export default {
     }
     response.user = user;
     res.json(response);
+  },
+  [`GET ${ApiPrefix}/users`](req: Request, res: Response) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    const { query } = req;
+    let { pageSize, page, ...other } = query as any;
+    pageSize = pageSize || 10;
+    page = page || 1;
+
+    let newData = database;
+    for (const key in other) {
+      if ({}.hasOwnProperty.call(other, key)) {
+        newData = newData.filter((item) => {
+          if ({}.hasOwnProperty.call(item, key)) {
+            if (key === 'address') {
+              return other[key].every((iitem) => item[key].indexOf(iitem) > -1);
+            } else if (key === 'createTime') {
+              const start = new Date(other[key][0]).getTime();
+              const end = new Date(other[key][1]).getTime();
+              const now = new Date(item[key]).getTime();
+
+              if (start && end) {
+                return now >= start && now <= end;
+              }
+              return true;
+            }
+            return (
+              String(item[key]).trim().indexOf(decodeURI(other[key]).trim()) >
+              -1
+            );
+          }
+          return true;
+        });
+      }
+    }
+    res.status(200).json({
+      data: newData.slice((page - 1) * pageSize, page * pageSize),
+      total: newData.length,
+    });
   },
 };

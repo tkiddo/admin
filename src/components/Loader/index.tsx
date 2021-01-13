@@ -4,7 +4,7 @@ import styles from './index.less';
 
 interface IProps {
   spinning: boolean;
-  fullScreen: boolean;
+  fullScreen?: boolean;
 }
 const Loader: FC<IProps> = ({ spinning = false, fullScreen }) => {
   return (
