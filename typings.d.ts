@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-04 09:00:32
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-13 13:43:43
+ * @LastEditTime: 2021-01-14 09:27:18
  * @Description:
  */
 declare module '*.css';

@@ -2,11 +2,12 @@
  * @Author: tkiddo
  * @Date: 2021-01-13 14:37:18
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-13 16:11:01
+ * @LastEditTime: 2021-01-14 10:20:46
  * @Description:
  */
 import modelExtend from 'dva-model-extend';
-import { PaginationModel, CommonModelType, IPaginationState } from 'common';
+import { CommonModelType } from 'common';
+import { PaginationModel } from '@/utils/paginationModel';
 import { pathToRegexp } from 'path-to-regexp';
 import api from 'api';
 
@@ -26,19 +27,14 @@ export interface IUser {
 export interface UserState {
   modalVisiable: boolean;
   list: IUser[];
-  pagination: IPaginationState;
-}
-
-interface PageQuery {
-  page?: number;
-  pageSize?: number;
 }
 
 const { queryUserList } = api;
 
-const UserModel: CommonModelType<UserState> = modelExtend(PaginationModel, {
+const ExtendModel: CommonModelType<UserState> = {
   namespace: 'user',
   state: {
+    list: [],
     modalVisiable: false,
   },
   subscriptions: {
@@ -55,7 +51,7 @@ const UserModel: CommonModelType<UserState> = modelExtend(PaginationModel, {
     },
   },
   effects: {
-    *query({ payload = {} }: { payload: PageQuery }, { call, put }) {
+    *query({ payload = {} }, { call, put }) {
       const { data } = yield call(queryUserList, payload);
       if (data) {
         yield put({
@@ -72,6 +68,7 @@ const UserModel: CommonModelType<UserState> = modelExtend(PaginationModel, {
       }
     },
   },
-});
+};
+const UserModel = modelExtend(PaginationModel, ExtendModel);
 
 export default UserModel;

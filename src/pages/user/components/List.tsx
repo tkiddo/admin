@@ -4,14 +4,15 @@ import { Link } from 'umi';
 
 import styles from './List.less';
 import { IUser } from '../model';
-import { IPaginationState } from 'common';
+import { IPaginationState } from '@/utils/PaginationModel';
 
 interface IProps {
   list: IUser[];
   pagination: IPaginationState;
+  onChange(page: IPaginationState): void;
 }
 
-const List: FC<IProps> = ({ list, pagination }) => {
+const List: FC<IProps> = ({ list, pagination, onChange }) => {
   const columns = [
     {
       title: 'Avatar',
@@ -19,13 +20,15 @@ const List: FC<IProps> = ({ list, pagination }) => {
       key: 'avatar',
       width: 80,
       fixed: 'left',
-      render: (text) => <Avatar style={{ marginLeft: 8 }} src={text} />,
+      render: (text: string) => <Avatar style={{ marginLeft: 8 }} src={text} />,
     },
     {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      render: (text, record) => <Link to={`user/${record.id}`}>{text}</Link>,
+      render: (text: string, record: { id: string }) => (
+        <Link to={`user/${record.id}`}>{text}</Link>
+      ),
     },
     {
       title: 'NickName',
@@ -41,7 +44,7 @@ const List: FC<IProps> = ({ list, pagination }) => {
       title: 'Gender',
       dataIndex: 'isMale',
       key: 'isMale',
-      render: (text) => <span>{text ? 'Male' : 'Female'}</span>,
+      render: (text: string) => <span>{text ? 'Male' : 'Female'}</span>,
     },
     {
       title: 'Phone',
@@ -74,6 +77,7 @@ const List: FC<IProps> = ({ list, pagination }) => {
       columns={columns}
       rowKey={(record) => record.id}
       pagination={pagination}
+      onChange={onChange}
     ></Table>
   );
 };

@@ -2,9 +2,10 @@
  * @Author: tkiddo
  * @Date: 2021-01-13 10:42:39
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-13 16:05:05
+ * @LastEditTime: 2021-01-14 09:49:01
  * @Description:
  */
+import { CommonModelType } from 'common';
 
 export interface IPaginationState {
   showSizeChanger: boolean;
@@ -13,9 +14,13 @@ export interface IPaginationState {
   total: number;
   pageSize: number;
 }
-export const PaginationModel = {
+
+interface modelState {
+  pagination: IPaginationState;
+}
+
+export const PaginationModel: CommonModelType<modelState> = {
   state: {
-    list: [],
     pagination: {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -38,7 +43,7 @@ export const PaginationModel = {
         ...state,
         list,
         pagination: {
-          ...state.pagination,
+          ...(state ? state.pagination : state),
           ...pagination,
         },
       };
