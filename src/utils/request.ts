@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-06 10:02:04
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-14 10:28:17
+ * @LastEditTime: 2021-01-14 15:34:39
  * @Description:
  */
 
@@ -46,6 +46,7 @@ const request = (options: AxiosRequestConfig): Promise<Result> => {
 
   options.url = url;
   options.params = cloneData;
+
   return axios(options)
     .then((res: AxiosResponse) => {
       const { statusText, status, data } = res;

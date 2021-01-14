@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-13 14:37:18
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-14 10:20:46
+ * @LastEditTime: 2021-01-14 15:58:51
  * @Description:
  */
 import modelExtend from 'dva-model-extend';

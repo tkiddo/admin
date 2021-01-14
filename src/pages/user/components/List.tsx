@@ -10,9 +10,10 @@ interface IProps {
   list: IUser[];
   pagination: IPaginationState;
   onChange(page: IPaginationState): void;
+  loading: boolean;
 }
 
-const List: FC<IProps> = ({ list, pagination, onChange }) => {
+const List: FC<IProps> = ({ list, pagination, onChange, loading }) => {
   const columns = [
     {
       title: 'Avatar',
@@ -78,6 +79,7 @@ const List: FC<IProps> = ({ list, pagination, onChange }) => {
       rowKey={(record) => record.id}
       pagination={pagination}
       onChange={onChange}
+      loading={loading}
     ></Table>
   );
 };

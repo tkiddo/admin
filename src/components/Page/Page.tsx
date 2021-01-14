@@ -4,8 +4,8 @@ import styles from './Page.less';
 import classnames from 'classnames';
 
 interface IProps {
-  className: string;
-  loading: boolean;
+  className?: string;
+  loading?: boolean;
   inner: boolean;
 }
 

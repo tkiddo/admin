@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-06 13:44:41
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-13 15:18:08
+ * @LastEditTime: 2021-01-14 15:55:30
  * @Description:
  */
 
@@ -65,6 +65,30 @@ const users = [
     permissions: userPermission.DEFAULT,
   },
 ];
+
+const queryArray = (array, key, keyAlias = 'key') => {
+  if (!(array instanceof Array)) {
+    return null;
+  }
+  let data;
+
+  for (const item of array) {
+    if (item[keyAlias] === key) {
+      data = item;
+      break;
+    }
+  }
+
+  if (data) {
+    return data;
+  }
+  return null;
+};
+
+const NOTFOUND = {
+  message: 'Not Found',
+  documentation_url: 'http://localhost:8000/request',
+};
 
 export default {
   [`POST ${ApiPrefix}/user/login`](req: Request, res: Response): void {
@@ -153,5 +177,14 @@ export default {
       data: newData.slice((page - 1) * pageSize, page * pageSize),
       total: newData.length,
     });
+  },
+  [`GET ${ApiPrefix}/user/:id`](req: Request, res: Response) {
+    const { id } = req.params;
+    const data = queryArray(database, id, 'id');
+    if (data) {
+      res.status(200).json(data);
+    } else {
+      res.status(200).json(NOTFOUND);
+    }
   },
 };
