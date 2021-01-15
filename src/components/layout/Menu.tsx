@@ -1,12 +1,16 @@
-import React, { FC, memo, Fragment } from 'react';
+import React, { FC, memo, Fragment, useState } from 'react';
 
-import { NavLink } from 'umi';
+import { NavLink, useLocation } from 'umi';
+
+import { pathToRegexp } from 'path-to-regexp';
+
+import store from 'store';
 
 import iconMap from '@/utils/iconMap';
 
 import { Menu } from 'antd';
 
-import { arrayToTree } from 'utils';
+import { arrayToTree, queryAncestors } from 'utils';
 
 import { IRoute } from 'common';
 
@@ -46,10 +50,54 @@ const generateMenus = (data: IRoute[]) => {
 };
 
 const SiderMenu: FC<IProps> = (props) => {
-  const { menus } = props;
+  const [openKeys, setOpenKeys] = useState(store.get('openKeys') || []);
+  const location = useLocation();
+
+  const { menus, collapsed } = props;
   const menuTree = arrayToTree(menus, 'id', 'menuParentId');
+
+  const onOpenChange = (openKeys: React.ReactText[]) => {
+    const rootSubmenuKeys = menus
+      .filter((_) => !_.menuParentId)
+      .map((_) => _.id);
+
+    const latestOpenKey = openKeys.find(
+      (key) => openKeys.indexOf(key) === -1,
+    ) as string;
+
+    let newOpenKeys = openKeys;
+    if (rootSubmenuKeys.indexOf(latestOpenKey) !== -1) {
+      newOpenKeys = latestOpenKey ? [latestOpenKey] : [];
+    }
+
+    setOpenKeys(newOpenKeys);
+    store.set('openKeys', newOpenKeys);
+  };
+
+  // Find a menu that matches the pathname.
+  const currentMenu = menus.find(
+    (_) => _.route && pathToRegexp(_.route).exec(location.pathname),
+  );
+
+  // Find the key that should be selected according to the current menu.
+  const selectedKeys = currentMenu
+    ? queryAncestors(menus, currentMenu, 'menuParentId').map((_) => _.id)
+    : [];
+
+  const menuProps = collapsed
+    ? {}
+    : {
+        openKeys: openKeys,
+      };
   return (
-    <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+    <Menu
+      theme="dark"
+      mode="inline"
+      defaultSelectedKeys={['1']}
+      {...menuProps}
+      selectedKeys={selectedKeys}
+      onOpenChange={onOpenChange}
+    >
       {generateMenus(menuTree)}
     </Menu>
   );

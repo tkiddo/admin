@@ -2,15 +2,35 @@
  * @Author: tkiddo
  * @Date: 2021-01-06 13:44:41
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-07 14:15:35
+ * @LastEditTime: 2021-01-15 10:43:23
  * @Description:
  */
 
 import { Constant } from './_utils';
 import { Request, Response } from 'umi';
+import Mock from 'mockjs';
 import qs from 'qs';
 
 const { ApiPrefix } = Constant;
+
+const usersListData = Mock.mock({
+  'data|80-100': [
+    {
+      id: '@id',
+      name: '@name',
+      nickName: '@last',
+      phone: /^1[34578]\d{9}$/,
+      'age|11-99': 1,
+      address: '@county(true)',
+      isMale: '@boolean',
+      email: '@email',
+      createTime: '@datetime',
+      avatar: '',
+    },
+  ],
+});
+
+let database = usersListData.data;
 
 const EnumRoleType = {
   ADMIN: 'admin',
@@ -20,7 +40,7 @@ const EnumRoleType = {
 
 const userPermission = {
   DEFAULT: {
-    visit: ['1', '2', '21', '7', '5', '51', '52', '53'],
+    visit: ['1', '2', '21'],
     role: EnumRoleType.DEFAULT,
   },
   ADMIN: {
@@ -42,9 +62,33 @@ const users = [
     id: 1,
     username: 'guest',
     password: 'guest',
-    permissions: userPermission.ADMIN,
+    permissions: userPermission.DEFAULT,
   },
 ];
+
+const queryArray = (array, key, keyAlias = 'key') => {
+  if (!(array instanceof Array)) {
+    return null;
+  }
+  let data;
+
+  for (const item of array) {
+    if (item[keyAlias] === key) {
+      data = item;
+      break;
+    }
+  }
+
+  if (data) {
+    return data;
+  }
+  return null;
+};
+
+const NOTFOUND = {
+  message: 'Not Found',
+  documentation_url: 'http://localhost:8000/request',
+};
 
 export default {
   [`POST ${ApiPrefix}/user/login`](req: Request, res: Response): void {
@@ -59,7 +103,7 @@ export default {
         'token',
         JSON.stringify({ id: user[0].id, deadline: now.getTime() }),
         {
-          maxAge: 900000,
+          maxAge: 9000,
           httpOnly: true,
         },
       );
@@ -67,6 +111,10 @@ export default {
     } else {
       res.status(400).end();
     }
+  },
+  [`GET ${ApiPrefix}/user/logout`](req: Request, res: Response): void {
+    res.clearCookie('token');
+    res.status(200).end();
   },
   [`GET ${ApiPrefix}/user`](req: Request, res: Response) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -91,5 +139,57 @@ export default {
     }
     response.user = user;
     res.json(response);
+  },
+  [`GET ${ApiPrefix}/users`](req: Request, res: Response) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    const { query } = req;
+    let { pageSize, page, ...other } = query as any;
+    pageSize = pageSize || 10;
+    page = page || 1;
+
+    let newData = database;
+    for (const key in other) {
+      if ({}.hasOwnProperty.call(other, key)) {
+        newData = newData.filter((item) => {
+          if ({}.hasOwnProperty.call(item, key)) {
+            if (key === 'address') {
+              return other[key].every((iitem) => item[key].indexOf(iitem) > -1);
+            } else if (key === 'createTime') {
+              const start = new Date(other[key][0]).getTime();
+              const end = new Date(other[key][1]).getTime();
+              const now = new Date(item[key]).getTime();
+
+              if (start && end) {
+                return now >= start && now <= end;
+              }
+              return true;
+            }
+            return (
+              String(item[key]).trim().indexOf(decodeURI(other[key]).trim()) >
+              -1
+            );
+          }
+          return true;
+        });
+      }
+    }
+    res.status(200).json({
+      data: newData.slice((page - 1) * pageSize, page * pageSize),
+      total: newData.length,
+    });
+  },
+  [`GET ${ApiPrefix}/user/:id`](req: Request, res: Response) {
+    const { id } = req.params;
+    const data = queryArray(database, id, 'id');
+    if (data) {
+      res.status(200).json(data);
+    } else {
+      res.status(200).json(NOTFOUND);
+    }
+  },
+  [`POST ${ApiPrefix}/users/delete`](req: Request, res: Response) {
+    const { ids = [] } = req.body;
+    database = database.filter((item) => !ids.some((_) => _ === item.id));
+    res.status(204).end();
   },
 };

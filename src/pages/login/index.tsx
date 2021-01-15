@@ -27,10 +27,20 @@ const Login: FC<CommonPageProps> = ({ loading, dispatch }) => {
           <span>{config.siteName}</span>
         </div>
         <Form onFinish={handleOk}>
-          <FormItem name="username" rules={[{ required: true }]} hasFeedback>
+          <FormItem
+            name="username"
+            rules={[{ required: true }]}
+            hasFeedback
+            initialValue="guest"
+          >
             <Input placeholder="Username" />
           </FormItem>
-          <FormItem name="password" rules={[{ required: true }]} hasFeedback>
+          <FormItem
+            name="password"
+            rules={[{ required: true }]}
+            hasFeedback
+            initialValue="guest"
+          >
             <Input type="password" placeholder="Password" />
           </FormItem>
           <Row>

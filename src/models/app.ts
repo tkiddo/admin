@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-05 10:32:23
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-11 10:10:10
+ * @LastEditTime: 2021-01-12 09:14:25
  * @Description:
  */
 import CommonModelType from '@/common/CommonModelType';
@@ -13,11 +13,19 @@ import { pathToRegexp } from 'path-to-regexp';
 import { ROLE_TYPE } from '@/utils/constants';
 import { queryLayout } from 'utils';
 
-const { queryUserInfo, queryRouteList } = api;
+const { queryUserInfo, queryRouteList, logoutUser } = api;
 
 interface AppModelState {
   locationPathname: string;
 }
+
+const goDashboard = () => {
+  if (pathToRegexp(['/', '/login']).exec(window.location.pathname)) {
+    history.push({
+      pathname: '/dashboard',
+    });
+  }
+};
 
 const AppModel: CommonModelType<AppModelState> = {
   namespace: 'app',
@@ -43,12 +51,10 @@ const AppModel: CommonModelType<AppModelState> = {
     *query({ payload }, { call, put, select }) {
       const isInit = store.get('isInit');
       if (isInit) {
-        history.push({
-          pathname: '/dashboard',
-        });
+        goDashboard();
         return;
       }
-      const { locationPathname } = yield select((s) => s.app);
+      const { locationPathname } = yield select((s: any) => s.app);
       const {
         data: { success, user },
       } = yield call(queryUserInfo, payload);
@@ -60,9 +66,9 @@ const AppModel: CommonModelType<AppModelState> = {
           permissions.role === ROLE_TYPE.ADMIN ||
           permissions.role === ROLE_TYPE.DEVELOPER
         ) {
-          permissions.visit = data.map((item) => item.id);
+          permissions.visit = data.map((item: any) => item.id);
         } else {
-          routeList = data.filter((item) => {
+          routeList = data.filter((item: any) => {
             const cases = [
               permissions.visit.includes(item.id),
               item.mpid
@@ -77,15 +83,23 @@ const AppModel: CommonModelType<AppModelState> = {
         store.set('permissions', permissions);
         store.set('user', user);
         store.set('isInit', true);
-        if (pathToRegexp(['/', '/login']).exec(window.location.pathname)) {
-          history.push({
-            pathname: '/dashboard',
-          });
-        }
+        goDashboard();
       } else if (queryLayout(locationPathname) !== 'public') {
         history.push({
           pathname: '/login',
         });
+      }
+    },
+    *signOut({ payload }, { call, put }) {
+      const data = yield call(logoutUser);
+      if (data.success) {
+        store.set('routeList', []);
+        store.set('permissions', { visit: [] });
+        store.set('user', {});
+        store.set('isInit', false);
+        yield put({ type: 'query' });
+      } else {
+        throw data;
       }
     },
   },

@@ -1,7 +1,7 @@
 import { Layout } from 'antd';
 import React, { useState, FC, memo } from 'react';
 import store from 'store';
-import { useLocation } from 'umi';
+import { useLocation, useDispatch } from 'umi';
 
 import { MyLayout } from 'components';
 import { IRoute } from 'common';
@@ -21,8 +21,10 @@ const { Content } = Layout;
 const BaseLayout: FC = (props) => {
   const permissions = store.get('permissions');
   const [collapsed, setCollapsed] = useState(false);
+  const dispatch = useDispatch();
 
   const routeList = store.get('routeList') || [];
+  const user = store.get('user') || {};
 
   const lang = getLocale();
   const newRouteList =
@@ -49,6 +51,11 @@ const BaseLayout: FC = (props) => {
   const headerProps = {
     fixed: true,
     collapsed,
+    avatar: user.avatar,
+    username: user.username,
+    onSignOut: () => {
+      dispatch({ type: 'app/signOut' });
+    },
     onCollapsedChange: () => {
       setCollapsed(!collapsed);
     },
