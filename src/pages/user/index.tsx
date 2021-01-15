@@ -14,6 +14,7 @@ import { UserState } from './model';
 import { IPaginationState } from '@/utils/PaginationModel';
 import List from './components/List';
 import { Page } from 'components';
+import { stringify } from 'qs';
 
 interface UserProps extends UserState {
   pagination: IPaginationState;
@@ -29,15 +30,25 @@ const User: ConnectRC<IProps> = ({
   loading,
 }) => {
   const dispatch = useDispatch();
-  const { pathname } = useLocation();
+  const { pathname, query } = useLocation();
 
-  const onChange = (pagination: IPaginationState) => {
+  const handleRefresh = (newQuery: { [key: string]: string | number }) => {
     history.push({
       pathname,
-      query: {
-        page: pagination.current.toString(),
-        pageSize: pagination.pageSize.toString(),
-      },
+      search: stringify(
+        {
+          ...query,
+          ...newQuery,
+        },
+        { arrayFormat: 'repeat' },
+      ),
+    });
+  };
+
+  const onChange = (pagination: IPaginationState) => {
+    handleRefresh({
+      page: pagination.current,
+      pageSize: pagination.pageSize,
     });
   };
 
@@ -46,14 +57,15 @@ const User: ConnectRC<IProps> = ({
       type: 'user/multiDelete',
       payload: {
         ids: selectedRowKeys,
+        callback: () => {
+          handleRefresh({
+            page:
+              list.length === selectedRowKeys.length && pagination.current > 1
+                ? pagination.current - 1
+                : pagination.current,
+          });
+        },
       },
-    }).then(() => {
-      onChange({
-        page:
-          list.length === selectedRowKeys.length && pagination.current > 1
-            ? pagination.current - 1
-            : pagination.current,
-      });
     });
   };
 
@@ -84,7 +96,7 @@ const User: ConnectRC<IProps> = ({
             {`Selected ${selectedRowKeys.length} items `}
             <Popconfirm
               title="Are you sure delete these items?"
-              placement="left"
+              placement="right"
               onConfirm={handleDeleteItems}
             >
               <Button type="primary" style={{ marginLeft: 8 }}>

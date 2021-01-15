@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-13 14:37:18
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-15 10:41:42
+ * @LastEditTime: 2021-01-15 14:06:31
  * @Description:
  */
 import modelExtend from 'dva-model-extend';
@@ -71,6 +71,7 @@ const ExtendModel: CommonModelType<UserState> = {
       const data = yield call(removeUserList, payload);
       if (data.success) {
         yield put({ type: 'updateState', payload: { selectedRowKeys: [] } });
+        payload.callback();
       } else {
         throw data;
       }
