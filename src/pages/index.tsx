@@ -1,12 +1,8 @@
-import React from 'react';
-import styles from './index.less';
+import React, { FC } from 'react';
+import { Redirect } from 'umi';
 
-const Index = () => {
-  return (
-    <div>
-      <h1 className={styles.title}>Page index</h1>
-    </div>
-  );
+const Index: FC = () => {
+  return <Redirect to="/dashboard"></Redirect>;
 };
 
 export default Index;

@@ -11,7 +11,12 @@
     "strict": true,
     "paths": {
       "@/*": ["src/*"],
-      "@@/*": ["src/.umi/*"]
+      "@@/*": ["src/.umi/*"],
+      "components": ["src/components/"],
+      "common": ["src/common/"],
+      "config": ["src/utils/config"],
+      "api": ["src/services"],
+      "utils": ["src/utils"]
     },
     "allowSyntheticDefaultImports": true
   },
