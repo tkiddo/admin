@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-13 14:37:18
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-14 15:58:51
+ * @LastEditTime: 2021-01-15 10:41:42
  * @Description:
  */
 import modelExtend from 'dva-model-extend';
@@ -25,23 +25,23 @@ export interface IUser {
 }
 
 export interface UserState {
-  modalVisiable: boolean;
   list: IUser[];
+  selectedRowKeys: string[];
 }
 
-const { queryUserList } = api;
+const { queryUserList, removeUserList } = api;
 
 const ExtendModel: CommonModelType<UserState> = {
   namespace: 'user',
   state: {
     list: [],
-    modalVisiable: false,
+    selectedRowKeys: [],
   },
   subscriptions: {
     setup({ dispatch, history }) {
       history.listen((location) => {
         if (pathToRegexp('/user').exec(location.pathname)) {
-          const payload = location.query || { page: 1, pageSize: 10 };
+          const payload = (location as any).query || { page: 1, pageSize: 10 };
           dispatch({
             type: 'query',
             payload,
@@ -65,6 +65,14 @@ const ExtendModel: CommonModelType<UserState> = {
             },
           },
         });
+      }
+    },
+    *multiDelete({ payload = {} }, { call, put }) {
+      const data = yield call(removeUserList, payload);
+      if (data.success) {
+        yield put({ type: 'updateState', payload: { selectedRowKeys: [] } });
+      } else {
+        throw data;
       }
     },
   },

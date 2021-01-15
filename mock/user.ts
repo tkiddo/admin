@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-06 13:44:41
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-14 15:55:30
+ * @LastEditTime: 2021-01-15 10:43:23
  * @Description:
  */
 
@@ -30,7 +30,7 @@ const usersListData = Mock.mock({
   ],
 });
 
-const database = usersListData.data;
+let database = usersListData.data;
 
 const EnumRoleType = {
   ADMIN: 'admin',
@@ -40,7 +40,7 @@ const EnumRoleType = {
 
 const userPermission = {
   DEFAULT: {
-    visit: ['1', '2'],
+    visit: ['1', '2', '21'],
     role: EnumRoleType.DEFAULT,
   },
   ADMIN: {
@@ -186,5 +186,10 @@ export default {
     } else {
       res.status(200).json(NOTFOUND);
     }
+  },
+  [`POST ${ApiPrefix}/users/delete`](req: Request, res: Response) {
+    const { ids = [] } = req.body;
+    database = database.filter((item) => !ids.some((_) => _ === item.id));
+    res.status(204).end();
   },
 };

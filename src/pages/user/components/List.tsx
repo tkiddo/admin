@@ -7,13 +7,17 @@ import { IUser } from '../model';
 import { IPaginationState } from '@/utils/PaginationModel';
 
 interface IProps {
-  list: IUser[];
+  dataSource: IUser[];
   pagination: IPaginationState;
   onChange(page: IPaginationState): void;
   loading: boolean;
+  rowSelection: {
+    selectedRowKeys: string[];
+    onChange(keys: string[]): void;
+  };
 }
 
-const List: FC<IProps> = ({ list, pagination, onChange, loading }) => {
+const List: FC<IProps> = ({ ...tableProps }) => {
   const columns = [
     {
       title: 'Avatar',
@@ -71,15 +75,12 @@ const List: FC<IProps> = ({ list, pagination, onChange, loading }) => {
 
   return (
     <Table
-      dataSource={list}
+      {...tableProps}
       className={styles.table}
       bordered
       scroll={{ x: 1200 }}
       columns={columns}
       rowKey={(record) => record.id}
-      pagination={pagination}
-      onChange={onChange}
-      loading={loading}
     ></Table>
   );
 };
