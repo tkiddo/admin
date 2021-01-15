@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-04 09:00:32
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-15 09:45:52
+ * @LastEditTime: 2021-01-15 14:48:07
  * @Description:
  */
 import { defineConfig } from 'umi';
@@ -16,6 +16,7 @@ export default defineConfig({
   targets: {
     chrome: 79,
   },
+  hash: true,
   devtool: 'eval',
   dva: { immer: true },
   alias: {
