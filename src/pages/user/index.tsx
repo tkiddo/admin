@@ -10,11 +10,12 @@ import {
   Loading,
   useDispatch,
 } from 'umi';
-import { UserState } from './model';
+import { IUser, UserState } from './model';
 import { IPaginationState } from '@/utils/PaginationModel';
 import List from './components/List';
 import { Page } from 'components';
 import { stringify } from 'qs';
+import Modal from './components/Modal';
 
 interface UserProps extends UserState {
   pagination: IPaginationState;
@@ -26,7 +27,14 @@ interface IProps {
 }
 
 const User: ConnectRC<IProps> = ({
-  user: { list, pagination, selectedRowKeys },
+  user: {
+    list,
+    pagination,
+    selectedRowKeys,
+    modalType,
+    modalVisible,
+    currentItem,
+  },
   loading,
 }) => {
   const dispatch = useDispatch();
@@ -42,13 +50,6 @@ const User: ConnectRC<IProps> = ({
         },
         { arrayFormat: 'repeat' },
       ),
-    });
-  };
-
-  const onChange = (pagination: IPaginationState) => {
-    handleRefresh({
-      page: pagination.current,
-      pageSize: pagination.pageSize,
     });
   };
 
@@ -80,12 +81,70 @@ const User: ConnectRC<IProps> = ({
       });
     },
   };
+
+  const onChange = (pagination: IPaginationState) => {
+    handleRefresh({
+      page: pagination.current,
+      pageSize: pagination.pageSize,
+    });
+  };
+
+  const onDeleteItem = (id: string) => {
+    dispatch({
+      type: 'user/delete',
+      payload: {
+        id,
+        callback: () => {
+          handleRefresh({
+            page:
+              list.length === 1 && pagination.current > 1
+                ? pagination.current - 1
+                : pagination.current,
+          });
+        },
+      },
+    });
+  };
+
+  const onEditItem = (item: IUser) => {
+    dispatch({
+      type: 'user/showModal',
+      payload: {
+        modalType: 'update',
+        currentItem: item,
+      },
+    });
+  };
+
   const listProps = {
     dataSource: list,
     loading,
     pagination,
     rowSelection,
     onChange,
+    onDeleteItem,
+    onEditItem,
+  };
+
+  const modalProps = {
+    visible: modalVisible,
+    item: modalType === 'create' ? {} : currentItem,
+    title: modalType === 'create' ? 'Create User' : 'Update User',
+    centered: true,
+    onCancel() {
+      dispatch({
+        type: 'user/hideModal',
+      });
+    },
+    onOk: (data) => {
+      dispatch({
+        type: `user/${modalType}`,
+        payload: data,
+        callback: () => {
+          handleRefresh({});
+        },
+      });
+    },
   };
 
   return (
@@ -107,6 +166,7 @@ const User: ConnectRC<IProps> = ({
         </Row>
       )}
       <List {...listProps}></List>
+      <Modal {...modalProps}></Modal>
     </Page>
   );
 };

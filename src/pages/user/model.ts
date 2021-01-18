@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-13 14:37:18
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-15 14:06:31
+ * @LastEditTime: 2021-01-18 15:01:11
  * @Description:
  */
 import modelExtend from 'dva-model-extend';
@@ -27,15 +27,21 @@ export interface IUser {
 export interface UserState {
   list: IUser[];
   selectedRowKeys: string[];
+  modalVisible: boolean;
+  modalType: string;
+  currentItem: IUser | Record<string, unknown>;
 }
 
-const { queryUserList, removeUserList } = api;
+const { queryUserList, removeUserList, updateUser, removeUser } = api;
 
 const ExtendModel: CommonModelType<UserState> = {
   namespace: 'user',
   state: {
     list: [],
     selectedRowKeys: [],
+    modalVisible: false,
+    modalType: 'create',
+    currentItem: {},
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -75,6 +81,44 @@ const ExtendModel: CommonModelType<UserState> = {
       } else {
         throw data;
       }
+    },
+    *delete({ id, callback }, { call, put, select }) {
+      const data = yield call(removeUser, { id: id });
+      const { selectedRowKeys } = yield select((_: any) => _.user);
+      if (data.success) {
+        yield put({
+          type: 'updateState',
+          payload: {
+            selectedRowKeys: selectedRowKeys.filter((_: any) => _ !== id),
+          },
+        });
+        if (typeof callback === 'function') {
+          callback();
+        }
+      } else {
+        throw data;
+      }
+    },
+    *update({ payload }, { select, call, put }) {
+      const id = yield select(
+        ({ user }: { user: UserState }) => user.currentItem.id,
+      );
+      const newUser = { ...payload, id };
+      const data = yield call(updateUser, newUser);
+      if (data.success) {
+        yield put({ type: 'hideModal' });
+      } else {
+        throw data;
+      }
+    },
+  },
+  reducers: {
+    showModal(state, { payload }) {
+      return { ...state, ...payload, modalVisible: true };
+    },
+
+    hideModal(state) {
+      return { ...state, modalVisible: false };
     },
   },
 };
