@@ -1,10 +1,13 @@
 import React, { FC, memo } from 'react';
-import { Table, Avatar } from 'antd';
+import { Table, Avatar, Modal } from 'antd';
 import { Link } from 'umi';
 
 import styles from './List.less';
 import { IUser } from '../model';
 import { IPaginationState } from '@/utils/PaginationModel';
+import { DropOption } from 'components';
+
+const { confirm } = Modal;
 
 interface IProps {
   dataSource: IUser[];
@@ -15,9 +18,24 @@ interface IProps {
     selectedRowKeys: string[];
     onChange(keys: string[]): void;
   };
+  onEditItem(item: IUser): void;
+  onDeleteItem(id: string): void;
 }
 
-const List: FC<IProps> = ({ ...tableProps }) => {
+const List: FC<IProps> = ({ onEditItem, onDeleteItem, ...tableProps }) => {
+  const handleMenuClick = (record: IUser, e) => {
+    // const { onDeleteItem, onEditItem, i18n } = this.props
+    if (e.key === '1') {
+      onEditItem(record);
+    } else if (e.key === '2') {
+      confirm({
+        title: `Are you sure delete this record?`,
+        onOk() {
+          onDeleteItem(record.id);
+        },
+      });
+    }
+  };
   const columns = [
     {
       title: 'Avatar',
@@ -70,6 +88,22 @@ const List: FC<IProps> = ({ ...tableProps }) => {
       title: 'CreateTime',
       dataIndex: 'createTime',
       key: 'createTime',
+    },
+    {
+      title: 'Operation',
+      key: 'operation',
+      fixed: 'right',
+      render: (text, record) => {
+        return (
+          <DropOption
+            onMenuClick={(e) => handleMenuClick(record, e)}
+            menuOptions={[
+              { key: '1', name: `Update` },
+              { key: '2', name: `Delete` },
+            ]}
+          />
+        );
+      },
     },
   ];
 
