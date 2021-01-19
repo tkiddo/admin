@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-06 13:44:41
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-18 14:13:51
+ * @LastEditTime: 2021-01-19 10:49:05
  * @Description:
  */
 
@@ -186,6 +186,24 @@ export default {
     } else {
       res.status(200).json(NOTFOUND);
     }
+  },
+  [`POST ${ApiPrefix}/user`](req: Request, res: Response) {
+    const newData = req.body;
+    newData.createTime = Mock.mock('@now');
+    newData.avatar =
+      newData.avatar ||
+      Mock.Random.image(
+        '100x100',
+        Mock.Random.color(),
+        '#757575',
+        'png',
+        newData.nickName.substr(0, 1),
+      );
+    newData.id = Mock.mock('@id');
+
+    database.unshift(newData);
+
+    res.status(200).end();
   },
   [`POST ${ApiPrefix}/users/delete`](req: Request, res: Response) {
     const { ids = [] } = req.body;

@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-13 14:37:18
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-18 15:01:11
+ * @LastEditTime: 2021-01-19 10:44:09
  * @Description:
  */
 import modelExtend from 'dva-model-extend';
@@ -32,7 +32,13 @@ export interface UserState {
   currentItem: IUser | Record<string, unknown>;
 }
 
-const { queryUserList, removeUserList, updateUser, removeUser } = api;
+const {
+  queryUserList,
+  removeUserList,
+  updateUser,
+  removeUser,
+  createUser,
+} = api;
 
 const ExtendModel: CommonModelType<UserState> = {
   namespace: 'user',
@@ -82,7 +88,7 @@ const ExtendModel: CommonModelType<UserState> = {
         throw data;
       }
     },
-    *delete({ id, callback }, { call, put, select }) {
+    *delete({ payload: { id, callback } }, { call, put, select }) {
       const data = yield call(removeUser, { id: id });
       const { selectedRowKeys } = yield select((_: any) => _.user);
       if (data.success) {
@@ -99,16 +105,30 @@ const ExtendModel: CommonModelType<UserState> = {
         throw data;
       }
     },
-    *update({ payload }, { select, call, put }) {
+    *update({ payload: { data, callback } }, { select, call, put }) {
       const id = yield select(
         ({ user }: { user: UserState }) => user.currentItem.id,
       );
-      const newUser = { ...payload, id };
-      const data = yield call(updateUser, newUser);
-      if (data.success) {
+      const newUser = { ...data, id };
+      const res = yield call(updateUser, newUser);
+      if (res.success) {
         yield put({ type: 'hideModal' });
+        if (typeof callback === 'function') {
+          callback();
+        }
       } else {
-        throw data;
+        throw res;
+      }
+    },
+    *create({ payload: { data, callback } }, { call, put }) {
+      const res = yield call(createUser, data);
+      if (res.success) {
+        yield put({ type: 'hideModal' });
+        if (typeof callback === 'function') {
+          callback();
+        }
+      } else {
+        throw res;
       }
     },
   },
@@ -117,8 +137,8 @@ const ExtendModel: CommonModelType<UserState> = {
       return { ...state, ...payload, modalVisible: true };
     },
 
-    hideModal(state) {
-      return { ...state, modalVisible: false };
+    hideModal(state, { payload }) {
+      return { ...state, ...payload, modalVisible: false };
     },
   },
 };

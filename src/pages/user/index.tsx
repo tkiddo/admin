@@ -10,11 +10,14 @@ import {
   Loading,
   useDispatch,
 } from 'umi';
+import { stringify } from 'qs';
+
 import { IUser, UserState } from './model';
 import { IPaginationState } from '@/utils/PaginationModel';
-import List from './components/List';
+
 import { Page } from 'components';
-import { stringify } from 'qs';
+import List from './components/List';
+import Filter from './components/Filter';
 import Modal from './components/Modal';
 
 interface UserProps extends UserState {
@@ -136,12 +139,33 @@ const User: ConnectRC<IProps> = ({
         type: 'user/hideModal',
       });
     },
-    onOk: (data) => {
+    onOk: (data: IUser) => {
       dispatch({
         type: `user/${modalType}`,
-        payload: data,
-        callback: () => {
-          handleRefresh({});
+        payload: {
+          data,
+          callback: () => {
+            handleRefresh({});
+          },
+        },
+      });
+    },
+  };
+
+  const filterProps = {
+    filter: {
+      ...query,
+    },
+    onFilterChange: (value) => {
+      handleRefresh({
+        ...value,
+      });
+    },
+    onAdd() {
+      dispatch({
+        type: 'user/showModal',
+        payload: {
+          modalType: 'create',
         },
       });
     },
@@ -149,6 +173,7 @@ const User: ConnectRC<IProps> = ({
 
   return (
     <Page inner>
+      <Filter {...filterProps}></Filter>
       {selectedRowKeys.length > 0 && (
         <Row style={{ marginBottom: 24, textAlign: 'right', fontSize: 13 }}>
           <Col>

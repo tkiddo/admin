@@ -27,19 +27,14 @@ interface IProps {
 const UserModal: FC<IProps> = ({ item, onOk, ...modalProps }) => {
   const formRef = useRef(null);
   const handleOk = () => {
-    formRef &&
-      formRef.current
-        .validateFields()
-        .then((values) => {
-          const data = {
-            ...values,
-            key: item.key,
-          };
-          onOk(data);
-        })
-        .catch((errorInfo) => {
-          console.log(errorInfo);
-        });
+    (formRef as any).current
+      .validateFields()
+      .then((values: IUser) => {
+        onOk(values);
+      })
+      .catch((errorInfo: Error) => {
+        console.log(errorInfo);
+      });
   };
   return (
     <Modal {...modalProps} onOk={handleOk}>
