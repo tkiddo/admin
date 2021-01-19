@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-06 13:44:41
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-19 10:49:05
+ * @LastEditTime: 2021-01-19 13:34:54
  * @Description:
  */
 
@@ -140,7 +140,7 @@ export default {
     response.user = user;
     res.json(response);
   },
-  [`GET ${ApiPrefix}/users`](req: Request, res: Response) {
+  [`GET ${ApiPrefix}/user/users`](req: Request, res: Response) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     const { query } = req;
     let { pageSize, page, ...other } = query as any;
@@ -205,7 +205,7 @@ export default {
 
     res.status(200).end();
   },
-  [`POST ${ApiPrefix}/users/delete`](req: Request, res: Response) {
+  [`POST ${ApiPrefix}/user/delete`](req: Request, res: Response) {
     const { ids = [] } = req.body;
     database = database.filter((item) => !ids.some((_) => _ === item.id));
     res.status(204).end();
