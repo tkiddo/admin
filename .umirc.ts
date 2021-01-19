@@ -2,13 +2,15 @@
  * @Author: tkiddo
  * @Date: 2021-01-04 09:00:32
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-15 14:48:07
+ * @LastEditTime: 2021-01-19 13:23:01
  * @Description:
  */
 import { defineConfig } from 'umi';
 import { resolve } from 'path';
+const isDevelopment = process.env.NODE_ENV === 'development';
 
 export default defineConfig({
+  publicPath: isDevelopment ? '/' : '/',
   nodeModulesTransform: {
     type: 'none',
     exclude: [],

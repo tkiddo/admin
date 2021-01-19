@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-06 13:44:41
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-15 10:43:23
+ * @LastEditTime: 2021-01-19 13:34:54
  * @Description:
  */
 
@@ -140,7 +140,7 @@ export default {
     response.user = user;
     res.json(response);
   },
-  [`GET ${ApiPrefix}/users`](req: Request, res: Response) {
+  [`GET ${ApiPrefix}/user/users`](req: Request, res: Response) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     const { query } = req;
     let { pageSize, page, ...other } = query as any;
@@ -187,9 +187,56 @@ export default {
       res.status(200).json(NOTFOUND);
     }
   },
-  [`POST ${ApiPrefix}/users/delete`](req: Request, res: Response) {
+  [`POST ${ApiPrefix}/user`](req: Request, res: Response) {
+    const newData = req.body;
+    newData.createTime = Mock.mock('@now');
+    newData.avatar =
+      newData.avatar ||
+      Mock.Random.image(
+        '100x100',
+        Mock.Random.color(),
+        '#757575',
+        'png',
+        newData.nickName.substr(0, 1),
+      );
+    newData.id = Mock.mock('@id');
+
+    database.unshift(newData);
+
+    res.status(200).end();
+  },
+  [`POST ${ApiPrefix}/user/delete`](req: Request, res: Response) {
     const { ids = [] } = req.body;
     database = database.filter((item) => !ids.some((_) => _ === item.id));
     res.status(204).end();
+  },
+  [`DELETE ${ApiPrefix}/user/:id`](req: Request, res: Response) {
+    const { id } = req.params;
+    const data = queryArray(database, id, 'id');
+    if (data) {
+      database = database.filter((item) => item.id !== id);
+      res.status(204).end();
+    } else {
+      res.status(200).json(NOTFOUND);
+    }
+  },
+  [`PATCH ${ApiPrefix}/user/:id`](req: Request, res: Response) {
+    const { id } = req.params;
+    const editItem = req.body;
+    let isExist = false;
+
+    database = database.map((item) => {
+      if (item.id === id) {
+        isExist = true;
+        return Object.assign({}, item, editItem);
+      }
+      return item;
+    });
+
+    if (isExist) {
+      res.status(201).end();
+    } else {
+      res.status(200).json(NOTFOUND);
+    }
   },
 };

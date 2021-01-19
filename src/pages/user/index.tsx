@@ -10,11 +10,15 @@ import {
   Loading,
   useDispatch,
 } from 'umi';
-import { UserState } from './model';
-import { IPaginationState } from '@/utils/PaginationModel';
-import List from './components/List';
-import { Page } from 'components';
 import { stringify } from 'qs';
+
+import { IUser, UserState } from './model';
+import { IPaginationState } from '@/utils/PaginationModel';
+
+import { Page } from 'components';
+import List from './components/List';
+import Filter from './components/Filter';
+import Modal from './components/Modal';
 
 interface UserProps extends UserState {
   pagination: IPaginationState;
@@ -26,7 +30,14 @@ interface IProps {
 }
 
 const User: ConnectRC<IProps> = ({
-  user: { list, pagination, selectedRowKeys },
+  user: {
+    list,
+    pagination,
+    selectedRowKeys,
+    modalType,
+    modalVisible,
+    currentItem,
+  },
   loading,
 }) => {
   const dispatch = useDispatch();
@@ -42,13 +53,6 @@ const User: ConnectRC<IProps> = ({
         },
         { arrayFormat: 'repeat' },
       ),
-    });
-  };
-
-  const onChange = (pagination: IPaginationState) => {
-    handleRefresh({
-      page: pagination.current,
-      pageSize: pagination.pageSize,
     });
   };
 
@@ -80,16 +84,96 @@ const User: ConnectRC<IProps> = ({
       });
     },
   };
+
+  const onChange = (pagination: IPaginationState) => {
+    handleRefresh({
+      page: pagination.current,
+      pageSize: pagination.pageSize,
+    });
+  };
+
+  const onDeleteItem = (id: string) => {
+    dispatch({
+      type: 'user/delete',
+      payload: {
+        id,
+        callback: () => {
+          handleRefresh({
+            page:
+              list.length === 1 && pagination.current > 1
+                ? pagination.current - 1
+                : pagination.current,
+          });
+        },
+      },
+    });
+  };
+
+  const onEditItem = (item: IUser) => {
+    dispatch({
+      type: 'user/showModal',
+      payload: {
+        modalType: 'update',
+        currentItem: item,
+      },
+    });
+  };
+
   const listProps = {
     dataSource: list,
     loading,
     pagination,
     rowSelection,
     onChange,
+    onDeleteItem,
+    onEditItem,
+  };
+
+  const modalProps = {
+    visible: modalVisible,
+    item: modalType === 'create' ? {} : currentItem,
+    title: modalType === 'create' ? 'Create User' : 'Update User',
+    centered: true,
+    onCancel() {
+      dispatch({
+        type: 'user/hideModal',
+      });
+    },
+    onOk: (data: IUser) => {
+      dispatch({
+        type: `user/${modalType}`,
+        payload: {
+          data,
+          callback: () => {
+            handleRefresh({});
+          },
+        },
+      });
+    },
+  };
+
+  const filterProps = {
+    filter: {
+      ...query,
+    },
+    onFilterChange: (value) => {
+      handleRefresh({
+        ...value,
+      });
+    },
+    onAdd() {
+      dispatch({
+        type: 'user/showModal',
+        payload: {
+          modalType: 'create',
+        },
+      });
+    },
   };
 
   return (
     <Page inner>
+      <Filter {...filterProps}></Filter>
       {selectedRowKeys.length > 0 && (
         <Row style={{ marginBottom: 24, textAlign: 'right', fontSize: 13 }}>
           <Col>
@@ -107,6 +191,7 @@ const User: ConnectRC<IProps> = ({
         </Row>
       )}
       <List {...listProps}></List>
+      <Modal {...modalProps}></Modal>
     </Page>
   );
 };
