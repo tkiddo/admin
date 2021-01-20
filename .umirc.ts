@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-04 09:00:32
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-20 15:05:02
+ * @LastEditTime: 2021-01-20 16:01:03
  * @Description:
  */
 import { defineConfig } from 'umi';
@@ -31,6 +31,9 @@ export default defineConfig({
     config: resolve(__dirname, './src/utils/config'),
     themes: resolve(__dirname, './src/themes'),
     utils: resolve(__dirname, './src/utils'),
+  },
+  dynamicImport: {
+    loading: 'components/Loader/index',
   },
   extraBabelPlugins: [
     [
