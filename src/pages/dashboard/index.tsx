@@ -1,3 +1,10 @@
+/*
+ * @Author: tkiddo
+ * @Date: 2021-01-15 14:50:02
+ * @LastEditors: tkiddo
+ * @LastEditTime: 2021-01-20 16:20:10
+ * @Description:
+ */
 import React, { FC } from 'react';
 import styles from './index.less';
 
