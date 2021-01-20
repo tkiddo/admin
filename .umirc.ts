@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-04 09:00:32
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-20 10:58:41
+ * @LastEditTime: 2021-01-20 15:05:02
  * @Description:
  */
 import { defineConfig } from 'umi';
@@ -11,6 +11,9 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 
 export default defineConfig({
   publicPath: isDevelopment ? '/' : 'https://tkiddo.github.io/admin/',
+  history: {
+    type: 'hash',
+  },
   nodeModulesTransform: {
     type: 'none',
     exclude: [],

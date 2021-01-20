@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-06 10:02:04
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-19 14:52:52
+ * @LastEditTime: 2021-01-20 14:13:12
  * @Description:
  */
 
@@ -32,6 +32,7 @@ const request = (options: AxiosRequestConfig): Promise<Result> => {
     }
 
     const match = parse(url);
+
     url = compile(url)(data);
 
     for (const item of match) {
@@ -45,7 +46,9 @@ const request = (options: AxiosRequestConfig): Promise<Result> => {
   }
 
   options.url = url;
-  options.params = cloneData;
+  if (options.method === 'GET') {
+    options.params = cloneData;
+  }
   options.withCredentials = true;
 
   return axios(options)
