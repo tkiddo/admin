@@ -1,7 +1,8 @@
 name: Build and Deploy
 on:
   push:
-    branches: [feature/ci]
+    tags:
+      - 'v*.*.*'
 jobs:
   build:
     runs-on: windows-latest # The first job utilizes windows-latest
