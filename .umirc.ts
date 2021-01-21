@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-04 09:00:32
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-21 09:45:24
+ * @LastEditTime: 2021-01-21 09:49:20
  * @Description:
  */
 import { defineConfig } from 'umi';
@@ -10,7 +10,8 @@ import { resolve } from 'path';
 const isDevelopment = process.env.NODE_ENV === 'development';
 
 export default defineConfig({
-  publicPath: isDevelopment ? '/' : 'https://tkiddo.github.io/admin',
+  publicPath: isDevelopment ? '/' : 'https://tkiddo.github.io/admin/',
+  runtimePublicPath: true,
   base: isDevelopment ? '/' : '/admin/',
   history: {
     type: 'hash',
