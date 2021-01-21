@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-06 10:02:04
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-19 14:52:52
+ * @LastEditTime: 2021-01-20 16:22:51
  * @Description:
  */
 
@@ -10,6 +10,7 @@ import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import { cloneDeep } from 'lodash';
 import { parse, compile } from 'path-to-regexp';
 import { message } from 'antd';
+import store from 'store';
 
 interface Result {
   success: boolean;
@@ -32,6 +33,7 @@ const request = (options: AxiosRequestConfig): Promise<Result> => {
     }
 
     const match = parse(url);
+
     url = compile(url)(data);
 
     for (const item of match) {
@@ -45,8 +47,14 @@ const request = (options: AxiosRequestConfig): Promise<Result> => {
   }
 
   options.url = url;
-  options.params = cloneData;
+  if (options.method === 'GET') {
+    options.params = cloneData;
+  }
   options.withCredentials = true;
+
+  options.headers = {
+    token: store.get('token') || '',
+  };
 
   return axios(options)
     .then((res: AxiosResponse) => {

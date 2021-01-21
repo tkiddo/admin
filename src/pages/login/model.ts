@@ -2,9 +2,10 @@
  * @Author: tkiddo
  * @Date: 2021-01-05 09:44:59
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-13 13:57:25
+ * @LastEditTime: 2021-01-20 16:14:13
  * @Description:
  */
+import store from 'store';
 
 import { CommonModelType } from 'common';
 
@@ -22,8 +23,9 @@ const LoginModel: CommonModelType<any> = {
   },
   effects: {
     *login({ payload }, { call, put, select }) {
-      const data = yield call(loginUser, payload);
+      const { data } = yield call(loginUser, payload);
       if (data.success) {
+        store.set('token', data.token);
         yield put({ type: 'app/query' });
       }
     },
