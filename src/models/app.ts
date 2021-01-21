@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-05 10:32:23
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-20 16:29:04
+ * @LastEditTime: 2021-01-21 09:32:58
  * @Description:
  */
 import CommonModelType from '@/common/CommonModelType';
@@ -36,7 +36,7 @@ const AppModel: CommonModelType<AppModelState> = {
     setup({ dispatch }) {
       dispatch({ type: 'query' });
     },
-    setupHistory({ dispatch }) {
+    setupHistory({ dispatch, history }) {
       history.listen((location) => {
         dispatch({
           type: 'updateState',
