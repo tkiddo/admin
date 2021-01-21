@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-13 14:37:18
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-19 10:44:09
+ * @LastEditTime: 2021-01-20 14:05:42
  * @Description:
  */
 import modelExtend from 'dva-model-extend';
@@ -79,17 +79,19 @@ const ExtendModel: CommonModelType<UserState> = {
         });
       }
     },
-    *multiDelete({ payload = {} }, { call, put }) {
-      const data = yield call(removeUserList, payload);
+    *multiDelete({ payload: { ids, callback } }, { call, put }) {
+      const data = yield call(removeUserList, { ids });
       if (data.success) {
         yield put({ type: 'updateState', payload: { selectedRowKeys: [] } });
-        payload.callback();
+        if (typeof callback === 'function') {
+          callback();
+        }
       } else {
         throw data;
       }
     },
     *delete({ payload: { id, callback } }, { call, put, select }) {
-      const data = yield call(removeUser, { id: id });
+      const data = yield call(removeUser, { id });
       const { selectedRowKeys } = yield select((_: any) => _.user);
       if (data.success) {
         yield put({
