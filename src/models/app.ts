@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-05 10:32:23
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-21 09:32:58
+ * @LastEditTime: 2021-01-21 10:27:00
  * @Description:
  */
 import CommonModelType from '@/common/CommonModelType';
@@ -20,7 +20,7 @@ interface AppModelState {
 }
 
 const goDashboard = () => {
-  if (pathToRegexp(['/', '/login']).exec(window.location.pathname)) {
+  if (pathToRegexp(['/', '/login']).exec(history.location.pathname)) {
     history.push({
       pathname: '/dashboard',
     });
