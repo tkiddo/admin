@@ -2,18 +2,49 @@
  * @Author: tkiddo
  * @Date: 2021-01-15 14:50:02
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-20 16:20:10
+ * @LastEditTime: 2021-01-22 16:53:42
  * @Description:
  */
-import React, { FC } from 'react';
+import React, { memo } from 'react';
 import styles from './index.less';
 
-const Dashboard: FC = () => {
+import { DashboardState } from './model';
+
+import { ConnectRC, connect, Loading } from 'umi';
+import { Col, Row } from 'antd';
+
+import NumberCard from './components/NumberCard';
+import { Page } from 'components';
+
+interface IProps {
+  loading: Loading;
+  dashboard: DashboardState;
+}
+
+const Dashboard: ConnectRC<IProps> = ({ dashboard }) => {
+  const { numbers } = dashboard;
+
+  const numberCards = numbers.map((item, key) => (
+    <Col key={key} lg={6} md={12}>
+      <NumberCard {...item} />
+    </Col>
+  ));
   return (
-    <div>
-      <h1 className={styles.title}>Page Dashboard</h1>
-    </div>
+    <Page className={styles.dashboard}>
+      <Row gutter={24}>{numberCards}</Row>
+    </Page>
   );
 };
 
-export default Dashboard;
+export default connect(
+  ({
+    dashboard,
+    loading,
+  }: {
+    dashboard: DashboardState;
+    loading: Loading;
+  }) => ({
+    dashboard,
+    loading,
+  }),
+)(memo(Dashboard));

@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-06 09:55:29
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-19 13:35:29
+ * @LastEditTime: 2021-01-22 15:42:42
  * @Description:
  */
 interface API {
@@ -22,6 +22,8 @@ const api: API = {
   createUser: 'POST /user',
   removeUser: 'DELETE /user/:id',
   removeUserList: 'POST /user/delete',
+
+  queryDashboard: '/dashboard',
 };
 
 export default api;

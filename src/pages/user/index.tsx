@@ -13,7 +13,7 @@ import {
 import { stringify } from 'qs';
 
 import { IUser, UserState } from './model';
-import { IPaginationState } from '@/utils/PaginationModel';
+import { IPaginationState } from '@/common/PaginationModel';
 
 import { Page } from 'components';
 import List from './components/List';

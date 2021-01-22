@@ -4,7 +4,7 @@ import { Link } from 'umi';
 
 import styles from './List.less';
 import { IUser } from '../model';
-import { IPaginationState } from '@/utils/PaginationModel';
+import { IPaginationState } from '@/common/PaginationModel';
 import { DropOption } from 'components';
 
 const { confirm } = Modal;
@@ -93,7 +93,7 @@ const List: FC<IProps> = ({ onEditItem, onDeleteItem, ...tableProps }) => {
       title: 'Operation',
       key: 'operation',
       fixed: 'right',
-      render: (text, record) => {
+      render: (text: string, record) => {
         return (
           <DropOption
             onMenuClick={(e) => handleMenuClick(record, e)}
