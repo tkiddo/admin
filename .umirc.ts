@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-04 09:00:32
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-21 10:57:04
+ * @LastEditTime: 2021-01-23 15:44:30
  * @Description:
  */
 import { defineConfig } from 'umi';
@@ -13,7 +13,7 @@ export default defineConfig({
   // 配置标题
   title: 'antd admin',
   // 配置 favicon 地址（href 属性）
-  favicon: '/favicon.ico',
+  favicon: isDevelopment ? '/favicon.ico' : '/admin/favicon.ico',
   // 部署时静态资源查找的路径
   publicPath: isDevelopment ? '/' : 'https://tkiddo.github.io/admin/',
   // html中管理publicPath
