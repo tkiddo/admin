@@ -1,3 +1,10 @@
+/*
+ * @Author: tkiddo
+ * @Date: 2021-01-15 14:50:02
+ * @LastEditors: tkiddo
+ * @LastEditTime: 2021-01-22 16:53:18
+ * @Description:
+ */
 import React, { FC } from 'react';
 import Loader from '../Loader';
 import styles from './Page.less';
@@ -6,7 +13,7 @@ import classnames from 'classnames';
 interface IProps {
   className?: string;
   loading?: boolean;
-  inner: boolean;
+  inner?: boolean;
 }
 
 const Page: FC<IProps> = ({

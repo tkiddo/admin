@@ -2,12 +2,12 @@
  * @Author: tkiddo
  * @Date: 2021-01-13 14:37:18
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-20 14:05:42
+ * @LastEditTime: 2021-01-22 16:02:41
  * @Description:
  */
 import modelExtend from 'dva-model-extend';
 import { CommonModelType } from 'common';
-import { PaginationModel } from '@/utils/paginationModel';
+import { PaginationModel } from '@/common/PaginationModel';
 import { pathToRegexp } from 'path-to-regexp';
 import api from 'api';
 

@@ -1,12 +1,17 @@
-import React, { FC, Fragment, memo } from 'react';
+/*
+ * @Author: tkiddo
+ * @Date: 2021-01-15 14:50:02
+ * @LastEditors: tkiddo
+ * @LastEditTime: 2021-01-22 16:00:52
+ * @Description:
+ */
+import React, { Fragment, memo } from 'react';
 import { Button, Row, Input, Form } from 'antd';
-import { connect, Loading, Dispatch } from 'umi';
+import { connect, Loading, useDispatch, ConnectRC } from 'umi';
 
 import styles from './index.less';
 
 import config from '@/utils/config';
-
-import { CommonPageProps } from 'common';
 
 const FormItem = Form.Item;
 
@@ -15,7 +20,12 @@ export interface LoginFormValue {
   password: string;
 }
 
-const Login: FC<CommonPageProps> = ({ loading, dispatch }) => {
+interface IProps {
+  loading: boolean;
+}
+
+const Login: ConnectRC<IProps> = ({ loading }) => {
+  const dispatch = useDispatch();
   const handleOk = (values: LoginFormValue) => {
     dispatch({ type: 'login/login', payload: values });
   };
@@ -58,9 +68,6 @@ const Login: FC<CommonPageProps> = ({ loading, dispatch }) => {
   );
 };
 
-export default connect(
-  ({ loading, dispatch }: { loading: Loading; dispatch: Dispatch }) => ({
-    loading: loading.models.login,
-    dispatch,
-  }),
-)(memo(Login));
+export default connect(({ loading }: { loading: Loading }) => ({
+  loading: loading.models.login,
+}))(memo(Login));
