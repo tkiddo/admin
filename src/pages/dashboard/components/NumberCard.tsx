@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-22 16:32:27
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-22 16:44:14
+ * @LastEditTime: 2021-01-23 13:03:47
  * @Description:
  */
 
@@ -10,7 +10,7 @@ import React, { FC } from 'react';
 import CountUp from 'react-countup';
 import { Card } from 'antd';
 
-import styles from './NumberCard.less';
+import styles from './numberCard.less';
 import iconMap from '@/utils/iconMap';
 
 export interface NumberCardProps {
@@ -38,7 +38,6 @@ const NumberCard: FC<NumberCardProps> = ({ icon, color, title, number }) => {
             end={number}
             duration={2.75}
             useEasing
-            useGrouping
             separator=","
           />
         </p>
