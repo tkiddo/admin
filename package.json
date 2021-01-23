@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "1.0.3",
+  "version": "1.0.4",
   "scripts": {
     "start": "umi dev",
     "build": "umi build",
