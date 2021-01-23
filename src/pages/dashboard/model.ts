@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-22 16:02:08
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-23 14:08:11
+ * @LastEditTime: 2021-01-23 15:18:06
  * @Description:
  */
 import { pathToRegexp } from 'path-to-regexp';
@@ -17,7 +17,8 @@ import { WeatherProps } from './components/weather';
 import { QuoteProps } from './components/quote';
 import { RecentSaleItem } from './components/recentSales';
 import { CommentItem } from './components/comments';
-
+import { BrowserItem } from './components/browser';
+import { UserProps } from './components/user';
 export interface DashboardState {
   numbers: NumberCardProps[];
   sales: SaleItem[];
@@ -25,6 +26,8 @@ export interface DashboardState {
   quote: QuoteProps;
   recentSales: RecentSaleItem[];
   comments: CommentItem[];
+  browser: BrowserItem[];
+  user: UserProps;
 }
 
 const { queryDashboard } = api;
@@ -48,6 +51,13 @@ const DashboardModel: CommonModelType<DashboardState> = {
     },
     recentSales: [],
     comments: [],
+    browser: [],
+    user: {
+      avatar: '',
+      username: '',
+      sales: 0,
+      sold: 0,
+    },
   },
   subscriptions: {
     setup({ dispatch, history }) {

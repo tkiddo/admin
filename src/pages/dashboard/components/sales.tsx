@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-22 20:47:27
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-23 13:03:56
+ * @LastEditTime: 2021-01-23 15:38:16
  * @Description:
  */
 
@@ -79,23 +79,23 @@ const Sales: FC<SalesProps> = ({ data }) => {
               border: 'none',
               boxShadow: '4px 4px 40px rgba(0, 0, 0, 0.05)',
             }}
-            content={(content) => {
-              const list = content.payload.map((item, key) => (
-                <li key={key} className={styles.tipitem}>
-                  <span
-                    className={styles.radiusdot}
-                    style={{ background: item.color }}
-                  />
-                  {`${item.name}:${item.value}`}
-                </li>
-              ));
-              return (
-                <div className={styles.tooltip}>
-                  <p className={styles.tiptitle}>{content.label}</p>
-                  {content.payload && <ul>{list}</ul>}
-                </div>
-              );
-            }}
+            // content={(content) => {
+            //   const list = content.payload.map((item, key) => (
+            //     <li key={key} className={styles.tipitem}>
+            //       <span
+            //         className={styles.radiusdot}
+            //         style={{ background: item.color }}
+            //       />
+            //       {`${item.name}:${item.value}`}
+            //     </li>
+            //   ));
+            //   return (
+            //     <div className={styles.tooltip}>
+            //       <p className={styles.tiptitle}>{content.label}</p>
+            //       {content.payload && <ul>{list}</ul>}
+            //     </div>
+            //   );
+            // }}
           />
           <Line
             type="monotone"

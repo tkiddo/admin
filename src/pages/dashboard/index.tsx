@@ -2,10 +2,11 @@
  * @Author: tkiddo
  * @Date: 2021-01-15 14:50:02
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-23 14:08:25
+ * @LastEditTime: 2021-01-23 15:27:13
  * @Description:
  */
 import React, { memo } from 'react';
+import store from 'store';
 import styles from './index.less';
 
 import { DashboardState } from './model';
@@ -19,6 +20,8 @@ import Weather from './components/weather';
 import Quote from './components/quote';
 import RecentSales from './components/recentSales';
 import Comments from './components/comments';
+import Browser from './components/browser';
+import User from './components/user';
 
 import { Page } from 'components';
 
@@ -37,7 +40,19 @@ const bodyStyle = {
 };
 
 const Dashboard: ConnectRC<IProps> = ({ dashboard }) => {
-  const { numbers, sales, weather, quote, recentSales, comments } = dashboard;
+  const {
+    numbers,
+    sales,
+    weather,
+    quote,
+    recentSales,
+    comments,
+    browser,
+    user,
+  } = dashboard;
+
+  const userDetail = store.get('user');
+  const { avatar, username } = userDetail;
 
   const numberCards = numbers.map((item, key) => (
     <Col key={key} lg={6} md={12}>
@@ -88,14 +103,28 @@ const Dashboard: ConnectRC<IProps> = ({ dashboard }) => {
             </Col>
           </Row>
         </Col>
+
         <Col lg={12} md={24}>
           <Card bordered={false} {...bodyStyle}>
-            <RecentSales data={recentSales} />
+            <Browser data={browser} />
           </Card>
         </Col>
         <Col lg={12} md={24}>
           <Card bordered={false} {...bodyStyle}>
             <Comments data={comments} />
+          </Card>
+        </Col>
+        <Col lg={16} md={24}>
+          <Card bordered={false} {...bodyStyle}>
+            <RecentSales data={recentSales} />
+          </Card>
+        </Col>
+        <Col lg={8} md={24}>
+          <Card
+            bordered={false}
+            bodyStyle={{ ...bodyStyle.bodyStyle, padding: 0 }}
+          >
+            <User {...user} avatar={avatar} username={username} />
           </Card>
         </Col>
       </Row>
