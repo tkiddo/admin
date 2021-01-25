@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-25 10:20:11
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-25 10:38:20
+ * @LastEditTime: 2021-01-25 14:26:08
  * @Description:
  */
 import React, { FC } from 'react';
@@ -16,6 +16,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
+  ReferenceLine,
 } from 'recharts';
 import Container from './container';
 
@@ -123,6 +124,66 @@ const VerticalLineChart = () => (
   </Container>
 );
 
+const DashedLineChart = () => (
+  <Container>
+    <LineChart
+      width={600}
+      height={300}
+      data={data}
+      margin={{
+        top: 5,
+        right: 30,
+        left: 20,
+        bottom: 5,
+      }}
+    >
+      <XAxis dataKey="name" />
+      <YAxis />
+      <CartesianGrid strokeDasharray="3 3" />
+      <Tooltip />
+      <Legend />
+      <Line
+        type="monotone"
+        dataKey="pv"
+        stroke="#8884d8"
+        strokeDasharray="5 5"
+      />
+      <Line
+        type="monotone"
+        dataKey="uv"
+        stroke="#82ca9d"
+        strokeDasharray="3 4 5 2"
+      />
+    </LineChart>
+  </Container>
+);
+
+const LineChartWithReferenceLines = () => (
+  <Container>
+    <LineChart
+      width={600}
+      height={300}
+      data={data}
+      margin={{
+        top: 20,
+        right: 50,
+        left: 20,
+        bottom: 5,
+      }}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="name" />
+      <YAxis />
+      <Tooltip />
+      <Legend />
+      <ReferenceLine x="Page C" stroke="red" label="Max PV PAGE" />
+      <ReferenceLine y={9800} label="Max" stroke="red" />
+      <Line type="monotone" dataKey="pv" stroke="#8884d8" />
+      <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+    </LineChart>
+  </Container>
+);
+
 const LineChartPage: FC = () => {
   return (
     <div className="content-inner">
@@ -150,6 +211,16 @@ const LineChartPage: FC = () => {
         <Col {...colProps}>
           <Card title="VerticalLineChart">
             <VerticalLineChart />
+          </Card>
+        </Col>
+        <Col {...colProps}>
+          <Card title="DashedLineChart">
+            <DashedLineChart />
+          </Card>
+        </Col>
+        <Col {...colProps}>
+          <Card title="LineChartWithReferenceLines">
+            <LineChartWithReferenceLines />
           </Card>
         </Col>
       </Row>

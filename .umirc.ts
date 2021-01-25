@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-04 09:00:32
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-23 15:44:30
+ * @LastEditTime: 2021-01-25 13:48:14
  * @Description:
  */
 import { defineConfig } from 'umi';
@@ -93,6 +93,11 @@ export default defineConfig({
               name: 'antd',
               priority: 20,
               test: /[\\/]node_modules[\\/](antd|@ant-design\/icons)[\\/]/,
+            },
+            recharts: {
+              name: 'recharts',
+              priority: 20,
+              test: /[\\/]node_modules[\\/]recharts[\\/]/,
             },
             async: {
               chunks: 'async',

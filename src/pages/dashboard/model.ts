@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-22 16:02:08
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-23 15:18:06
+ * @LastEditTime: 2021-01-25 15:08:34
  * @Description:
  */
 import { pathToRegexp } from 'path-to-regexp';
@@ -41,7 +41,7 @@ const DashboardModel: CommonModelType<DashboardState> = {
       city: 'HangZhou',
       temperature: '30',
       name: '晴',
-      icon: '/assets/icon/sunny.png',
+      icon: '../../../assets/icon/sunny.png',
     },
     quote: {
       name: '',
