@@ -1,0 +1,17 @@
+name: Copy to admin-api
+on: [push]
+jobs:
+  Copy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Copycat
+        uses: andstor/copycat-action@v3
+        with:
+          personal_token: ${{secrets.ACCESS_TOKEN}}
+          src_path: public
+          dest_path: public/app
+          dest_owner: tkiddo
+          dst_repo_name: admin-api
+          dest_branch: feature/static
+          clean: true
+          
