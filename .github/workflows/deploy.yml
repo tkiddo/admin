@@ -43,3 +43,15 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
           FOLDER: 'site' # The deployment folder should match the name of the artifact. Even though our project builds into the 'build' folder the artifact name of 'site' must be placed here.
+
+      - name: Copycat
+        uses: andstor/copycat-action@v3
+        with:
+          personal_token: ${{secrets.ACCESS_TOKEN}}
+          src_path: /.
+          src_branch: gh-pages
+          dst_path: /public/
+          dst_owner: tkiddo
+          dst_repo_name: admin-api
+          dst_branch: main
+          clean: true
