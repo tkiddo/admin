@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-06 09:55:29
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-22 15:42:42
+ * @LastEditTime: 2021-01-27 15:37:28
  * @Description:
  */
 interface API {
@@ -16,12 +16,12 @@ const api: API = {
 
   queryRouteList: '/routes',
 
-  queryUserList: '/user/users',
-  queryUser: '/user/:id',
-  updateUser: 'Patch /user/:id',
-  createUser: 'POST /user',
-  removeUser: 'DELETE /user/:id',
-  removeUserList: 'POST /user/delete',
+  queryUserList: '/users',
+  queryUser: '/users/:id',
+  updateUser: 'POST /users/:id',
+  createUser: 'POST /users',
+  removeUser: 'DELETE /users/:id',
+  removeUserList: 'POST /users/delete',
 
   queryDashboard: '/dashboard',
 };

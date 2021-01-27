@@ -52,5 +52,5 @@ jobs:
           dst_path: /public/
           dst_owner: tkiddo
           dst_repo_name: admin-api
-          dst_branch: feature/static
+          dst_branch: main
           clean: true
