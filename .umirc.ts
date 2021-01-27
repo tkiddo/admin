@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-04 09:00:32
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-25 13:48:14
+ * @LastEditTime: 2021-01-27 15:46:22
  * @Description:
  */
 import { defineConfig } from 'umi';
@@ -13,9 +13,11 @@ export default defineConfig({
   // 配置标题
   title: 'antd admin',
   // 配置 favicon 地址（href 属性）
-  favicon: isDevelopment ? '/favicon.ico' : '/admin/favicon.ico',
+  favicon: '/favicon.ico',
   // 部署时静态资源查找的路径
-  publicPath: isDevelopment ? '/' : 'https://tkiddo.github.io/admin/',
+  publicPath: isDevelopment
+    ? '/'
+    : 'https://express-9gf51cps1d7be8f0-1256164626.ap-guangzhou.app.tcloudbase.com/admin/',
   // html中管理publicPath
   runtimePublicPath: true,
   // 路由模式为hash路由
