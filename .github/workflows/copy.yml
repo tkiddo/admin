@@ -9,9 +9,8 @@ jobs:
         with:
           personal_token: ${{secrets.ACCESS_TOKEN}}
           src_path: public
-          dest_path: public/app
-          dest_owner: tkiddo
+          dst_path: public/app
+          dst_owner: tkiddo
           dst_repo_name: admin-api
-          dest_branch: feature/static
+          dst_branch: feature/static
           clean: true
-          
