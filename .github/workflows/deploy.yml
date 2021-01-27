@@ -3,7 +3,7 @@ on:
   push:
     branches: [feature/cos]
 jobs:
-  build and copy:
+  build:
     runs-on: windows-latest # The first job utilizes windows-latest
     steps:
       - name: Checkout 🛎️
