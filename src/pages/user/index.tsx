@@ -25,7 +25,7 @@ interface UserProps extends UserState {
 }
 
 interface IProps {
-  loading: boolean;
+  loading: Loading;
   user: UserProps;
 }
 
@@ -121,7 +121,7 @@ const User: ConnectRC<IProps> = ({
 
   const listProps = {
     dataSource: list,
-    loading,
+    loading: loading.effects['user/query'] as boolean,
     pagination,
     rowSelection,
     onChange,
@@ -132,8 +132,11 @@ const User: ConnectRC<IProps> = ({
   const modalProps = {
     visible: modalVisible,
     item: modalType === 'create' ? {} : currentItem,
-    title: modalType === 'create' ? 'Create User' : 'Update User',
+    title: modalType === 'create' ? '创建用户' : '更新用户',
     centered: true,
+    destroyOnClose: true,
+    maskClosable: false,
+    confirmLoading: loading.effects[`user/${modalType}`] as boolean,
     onCancel() {
       dispatch({
         type: 'user/hideModal',
@@ -198,7 +201,7 @@ const User: ConnectRC<IProps> = ({
 
 export default connect(
   ({ user, loading }: { user: UserProps; loading: Loading }) => ({
-    loading: loading.effects['user/query'] as boolean,
+    loading,
     user,
   }),
 )(User);

@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-04 09:00:32
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-27 15:46:22
+ * @LastEditTime: 2021-01-28 09:45:48
  * @Description:
  */
 import { defineConfig } from 'umi';
@@ -56,6 +56,14 @@ export default defineConfig({
   ignoreMomentLocale: true,
   // 快速刷新（Fast Refresh），开发时可以保持组件状态，同时编辑提供即时反馈。
   fastRefresh: {},
+  proxy: {
+    '/admin/api': {
+      target:
+        'https://express-9gf51cps1d7be8f0-1256164626.ap-guangzhou.app.tcloudbase.com/admin/api',
+      changeOrigin: true,
+      pathRewrite: { '^/admin/api': '' },
+    },
+  },
   extraBabelPlugins: [
     [
       'import',

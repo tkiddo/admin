@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-13 14:37:18
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-22 16:02:41
+ * @LastEditTime: 2021-01-28 15:31:33
  * @Description:
  */
 import modelExtend from 'dva-model-extend';
@@ -12,12 +12,11 @@ import { pathToRegexp } from 'path-to-regexp';
 import api from 'api';
 
 export interface IUser {
-  id: string;
+  _id: string;
   name: string;
   nickName: string;
   phone: string;
   age: number;
-  address: string;
   isMale: boolean;
   email: string;
   createTime: string;
@@ -64,12 +63,12 @@ const ExtendModel: CommonModelType<UserState> = {
   },
   effects: {
     *query({ payload = {} }, { call, put }) {
-      const { data } = yield call(queryUserList, payload);
-      if (data) {
+      const { success, data } = yield call(queryUserList, payload);
+      if (success) {
         yield put({
           type: 'querySuccess',
           payload: {
-            list: data.data,
+            list: data.list,
             pagination: {
               current: Number(payload.page) || 1,
               pageSize: Number(payload.pageSize) || 10,
@@ -80,36 +79,36 @@ const ExtendModel: CommonModelType<UserState> = {
       }
     },
     *multiDelete({ payload: { ids, callback } }, { call, put }) {
-      const data = yield call(removeUserList, { ids });
-      if (data.success) {
+      const res = yield call(removeUserList, { ids });
+      if (res.success) {
         yield put({ type: 'updateState', payload: { selectedRowKeys: [] } });
         if (typeof callback === 'function') {
           callback();
         }
       } else {
-        throw data;
+        throw res;
       }
     },
-    *delete({ payload: { id, callback } }, { call, put, select }) {
-      const data = yield call(removeUser, { id });
+    *delete({ payload: { _id, callback } }, { call, put, select }) {
+      const res = yield call(removeUser, { _id });
       const { selectedRowKeys } = yield select((_: any) => _.user);
-      if (data.success) {
+      if (res.success) {
         yield put({
           type: 'updateState',
           payload: {
-            selectedRowKeys: selectedRowKeys.filter((_: any) => _ !== id),
+            selectedRowKeys: selectedRowKeys.filter((_: any) => _ !== _id),
           },
         });
         if (typeof callback === 'function') {
           callback();
         }
       } else {
-        throw data;
+        throw res;
       }
     },
     *update({ payload: { data, callback } }, { select, call, put }) {
       const id = yield select(
-        ({ user }: { user: UserState }) => user.currentItem.id,
+        ({ user }: { user: UserState }) => user.currentItem._id,
       );
       const newUser = { ...data, id };
       const res = yield call(updateUser, newUser);
