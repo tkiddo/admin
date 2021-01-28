@@ -23,4 +23,5 @@ $ yarn start
 
 # Preview Site
 
-[https://tkiddo.github.io/admin/](https://tkiddo.github.io/admin/)
+[点我](https://express-9gf51cps1d7be8f0-1256164626.ap-guangzhou.app.tcloudbase.com/admin
+)
