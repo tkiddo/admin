@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-04 09:00:32
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-23 15:46:25
+ * @LastEditTime: 2021-01-28 19:50:19
  * @Description: 
 -->
 # Antd Admin
@@ -23,4 +23,5 @@ $ yarn start
 
 # Preview Site
 
-[https://tkiddo.github.io/admin/](https://tkiddo.github.io/admin/)
+[点我前往](https://express-9gf51cps1d7be8f0-1256164626.ap-guangzhou.app.tcloudbase.com/admin
+)
