@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "1.0.6",
+  "version": "1.0.7",
   "scripts": {
     "start": "umi dev",
     "build": "umi build",
@@ -17,8 +17,7 @@
   "lint-staged": {
     "src/**/*.ts?(x)": [
       "eslint --ext .ts,.tsx --fix",
-      "prettier --parser=typescript --write",
-      "git add"
+      "prettier --parser=typescript --write"
     ]
   },
   "dependencies": {
