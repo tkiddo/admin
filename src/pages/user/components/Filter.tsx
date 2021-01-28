@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-19 10:01:09
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-19 10:54:25
+ * @LastEditTime: 2021-01-28 10:43:03
  * @Description:
  */
 import React, { FC, useRef } from 'react';
@@ -82,7 +82,7 @@ const Filter: FC<IProps> = ({ onFilterChange, onAdd, filter, children }) => {
       <Row gutter={24}>
         <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
           <Form.Item name="name">
-            <Search placeholder={`Search Name`} onSearch={handleSubmit} />
+            <Search placeholder={`姓名 搜索`} onSearch={handleSubmit} />
           </Form.Item>
         </Col>
         <Col
@@ -110,12 +110,12 @@ const Filter: FC<IProps> = ({ onFilterChange, onAdd, filter, children }) => {
                 className="margin-right"
                 onClick={handleSubmit}
               >
-                Search
+                查找
               </Button>
-              <Button onClick={handleReset}>Reset</Button>
+              <Button onClick={handleReset}>重置</Button>
             </div>
             <Button type="ghost" onClick={onAdd}>
-              Create
+              创建
             </Button>
           </Row>
         </Col>

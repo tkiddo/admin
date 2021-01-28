@@ -29,16 +29,16 @@ const List: FC<IProps> = ({ onEditItem, onDeleteItem, ...tableProps }) => {
       onEditItem(record);
     } else if (e.key === '2') {
       confirm({
-        title: `Are you sure delete this record?`,
+        title: `你确定删除这条记录吗?`,
         onOk() {
-          onDeleteItem(record.id);
+          onDeleteItem(record._id);
         },
       });
     }
   };
   const columns = [
     {
-      title: 'Avatar',
+      title: '头像',
       dataIndex: 'avatar',
       key: 'avatar',
       width: 80,
@@ -46,60 +46,55 @@ const List: FC<IProps> = ({ onEditItem, onDeleteItem, ...tableProps }) => {
       render: (text: string) => <Avatar style={{ marginLeft: 8 }} src={text} />,
     },
     {
-      title: 'Name',
+      title: '姓名',
       dataIndex: 'name',
       key: 'name',
-      render: (text: string, record: { id: string }) => (
-        <Link to={`user/${record.id}`}>{text}</Link>
+      render: (text: string, record: IUser) => (
+        <Link to={`user/${record._id}`}>{text}</Link>
       ),
     },
     {
-      title: 'NickName',
+      title: '昵称',
       dataIndex: 'nickName',
       key: 'nickName',
     },
     {
-      title: 'Age',
+      title: '年龄',
       dataIndex: 'age',
       key: 'age',
     },
     {
-      title: 'Gender',
+      title: '性别',
       dataIndex: 'isMale',
       key: 'isMale',
-      render: (text: string) => <span>{text ? 'Male' : 'Female'}</span>,
+      render: (text: boolean) => <span>{text ? '男' : '女'}</span>,
     },
     {
-      title: 'Phone',
+      title: '电话',
       dataIndex: 'phone',
       key: 'phone',
     },
     {
-      title: 'Email',
+      title: '邮箱',
       dataIndex: 'email',
       key: 'email',
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
-    },
-    {
-      title: 'CreateTime',
+      title: '创建时间',
       dataIndex: 'createTime',
       key: 'createTime',
     },
     {
-      title: 'Operation',
+      title: '操作',
       key: 'operation',
       fixed: 'right',
-      render: (text: string, record) => {
+      render: (text: string, record: IUser) => {
         return (
           <DropOption
             onMenuClick={(e) => handleMenuClick(record, e)}
             menuOptions={[
-              { key: '1', name: `Update` },
-              { key: '2', name: `Delete` },
+              { key: '1', name: `更新` },
+              { key: '2', name: `删除` },
             ]}
           />
         );
@@ -114,7 +109,7 @@ const List: FC<IProps> = ({ onEditItem, onDeleteItem, ...tableProps }) => {
       bordered
       scroll={{ x: 1200 }}
       columns={columns}
-      rowKey={(record) => record.id}
+      rowKey={(record) => record._id}
     ></Table>
   );
 };
