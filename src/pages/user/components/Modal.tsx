@@ -24,18 +24,20 @@ interface IProps {
   onOk(item: IUser): void;
 }
 
-const UserModal: FC<IProps> = ({ item, onOk, ...modalProps }) => {
+const UserModal: FC<IProps> = ({ item = {}, onOk, ...modalProps }) => {
   const formRef = useRef(null);
   const handleOk = () => {
     (formRef as any).current
       .validateFields()
       .then((values: IUser) => {
+        console.log(values);
         onOk(values);
       })
       .catch((errorInfo: Error) => {
         console.log(errorInfo);
       });
   };
+
   return (
     <Modal {...modalProps} onOk={handleOk}>
       <Form
@@ -49,7 +51,7 @@ const UserModal: FC<IProps> = ({ item, onOk, ...modalProps }) => {
         <FormItem
           name="name"
           rules={[{ required: true }]}
-          label={`Name`}
+          label={`姓名`}
           hasFeedback
           {...formItemLayout}
         >
@@ -58,7 +60,7 @@ const UserModal: FC<IProps> = ({ item, onOk, ...modalProps }) => {
         <FormItem
           name="nickName"
           rules={[{ required: true }]}
-          label={`NickName`}
+          label={`昵称`}
           hasFeedback
           {...formItemLayout}
         >
@@ -67,13 +69,13 @@ const UserModal: FC<IProps> = ({ item, onOk, ...modalProps }) => {
         <FormItem
           name="isMale"
           rules={[{ required: true }]}
-          label={`Gender`}
+          label={`性别`}
           hasFeedback
           {...formItemLayout}
         >
           <Radio.Group>
-            <Radio value>Male</Radio>
-            <Radio value={false}>Female</Radio>
+            <Radio value>男</Radio>
+            <Radio value={false}>女</Radio>
           </Radio.Group>
         </FormItem>
         <FormItem name="age" label={`Age`} hasFeedback {...formItemLayout}>
@@ -85,10 +87,10 @@ const UserModal: FC<IProps> = ({ item, onOk, ...modalProps }) => {
             {
               required: true,
               pattern: /^1[34578]\d{9}$/,
-              message: `The input is not valid phone!`,
+              message: `请输入正确电话号码!`,
             },
           ]}
-          label={`Phone`}
+          label={`电话`}
           hasFeedback
           {...formItemLayout}
         >
@@ -100,10 +102,10 @@ const UserModal: FC<IProps> = ({ item, onOk, ...modalProps }) => {
             {
               required: true,
               pattern: /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/,
-              message: `The input is not valid E-mail!`,
+              message: `请输入正确邮箱!`,
             },
           ]}
-          label={`Email`}
+          label={`邮箱`}
           hasFeedback
           {...formItemLayout}
         >

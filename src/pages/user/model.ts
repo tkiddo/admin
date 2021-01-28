@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-13 14:37:18
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-28 10:46:35
+ * @LastEditTime: 2021-01-28 15:31:33
  * @Description:
  */
 import modelExtend from 'dva-model-extend';
@@ -68,7 +68,7 @@ const ExtendModel: CommonModelType<UserState> = {
         yield put({
           type: 'querySuccess',
           payload: {
-            list: data,
+            list: data.list,
             pagination: {
               current: Number(payload.page) || 1,
               pageSize: Number(payload.pageSize) || 10,
