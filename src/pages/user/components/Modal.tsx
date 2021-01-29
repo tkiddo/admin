@@ -4,6 +4,8 @@ import { Form, Input, InputNumber, Radio, Modal } from 'antd';
 
 import { IUser } from '../model';
 
+import { Uploader } from 'components';
+
 const FormItem = Form.Item;
 
 const formItemLayout = {
@@ -48,6 +50,15 @@ const UserModal: FC<IProps> = ({ item = {}, onOk, ...modalProps }) => {
         }}
         layout="horizontal"
       >
+        <FormItem
+          name="avatar"
+          rules={[{ required: true }]}
+          label={`头像`}
+          hasFeedback
+          {...formItemLayout}
+        >
+          <Uploader></Uploader>
+        </FormItem>
         <FormItem
           name="name"
           rules={[{ required: true }]}
