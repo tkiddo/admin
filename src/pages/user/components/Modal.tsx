@@ -28,11 +28,14 @@ interface IProps {
 
 const UserModal: FC<IProps> = ({ item = {}, onOk, ...modalProps }) => {
   const formRef = useRef(null);
+  const handleUpload = (options: { imageUrl: string; fileID: string }) => {
+    formRef.current.setFieldsValue({ avatar: options.fileID });
+  };
+
   const handleOk = () => {
     (formRef as any).current
       .validateFields()
       .then((values: IUser) => {
-        console.log(values);
         onOk(values);
       })
       .catch((errorInfo: Error) => {
@@ -50,14 +53,14 @@ const UserModal: FC<IProps> = ({ item = {}, onOk, ...modalProps }) => {
         }}
         layout="horizontal"
       >
-        <FormItem
-          name="avatar"
-          rules={[{ required: true }]}
-          label={`头像`}
-          hasFeedback
-          {...formItemLayout}
-        >
-          <Uploader></Uploader>
+        <FormItem label={`头像`} hasFeedback {...formItemLayout}>
+          <Uploader
+            onOk={handleUpload}
+            imageUrl={item.avatar as string}
+          ></Uploader>
+        </FormItem>
+        <FormItem hidden name="avatar">
+          <Input />
         </FormItem>
         <FormItem
           name="name"

@@ -2,12 +2,14 @@
  * @Author: tkiddo
  * @Date: 2021-01-29 09:28:17
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-29 10:08:32
+ * @LastEditTime: 2021-01-29 20:24:52
  * @Description:
  */
 import React, { FC, useState } from 'react';
 import { Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+
+const uploadUrl = `/upload`;
 
 function getBase64(img, callback) {
   const reader = new FileReader();
@@ -18,18 +20,22 @@ function getBase64(img, callback) {
 function beforeUpload(file: File) {
   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
   if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
+    message.error('智能上传 JPG/PNG 文件!');
   }
   const isLt2M = file.size / 1024 / 1024 < 2;
   if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
+    message.error('图片必须小于 2MB!');
   }
   return isJpgOrPng && isLt2M;
 }
 
-const Uploader: FC = () => {
+interface IProps {
+  onOk(options: { fileID: string; imageUrl: string }): void;
+  imageUrl: string;
+}
+
+const Uploader: FC<IProps> = ({ onOk, imageUrl }) => {
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState('');
 
   const uploadButton = (
     <div>
@@ -45,21 +51,18 @@ const Uploader: FC = () => {
     if (info.file.status === 'done') {
       // Get this url from response in real world.
       getBase64(info.file.originFileObj, (imageUrl) => {
-        setImageUrl(imageUrl);
         setLoading(false);
+        onOk({ fileID: info.file.response.fileID, imageUrl });
       });
     }
   };
   return (
     <Upload
-      name="avatar"
+      name="img"
       listType="picture-card"
       className="avatar-uploader"
       showUploadList={false}
-      action="http://localhost:3000/api/upload"
-      data={(file) => ({
-        file,
-      })}
+      action={uploadUrl}
       beforeUpload={beforeUpload}
       onChange={handleChange}
     >
