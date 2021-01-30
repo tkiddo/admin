@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-14 15:56:05
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-14 16:25:21
+ * @LastEditTime: 2021-01-30 15:18:49
  * @Description:
  */
 import { pathToRegexp } from 'path-to-regexp';
@@ -11,7 +11,7 @@ import api from 'api';
 
 export interface IUserDetail {
   data: {
-    id?: string;
+    _id?: string;
     name?: string;
     nickName?: string;
     phone?: string;
@@ -38,7 +38,7 @@ const UserDetailModel: CommonModelType<IUserDetail> = {
       history.listen(({ pathname }) => {
         const match = pathToRegexp('/user/:id').exec(pathname);
         if (match) {
-          dispatch({ type: 'query', payload: { id: match[1] } });
+          dispatch({ type: 'query', payload: { _id: match[1] } });
         }
       });
     },
