@@ -2,11 +2,12 @@
  * @Author: tkiddo
  * @Date: 2021-01-15 14:50:02
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-28 10:54:40
+ * @LastEditTime: 2021-01-30 15:37:58
  * @Description:
  */
 import React, { FC } from 'react';
 import { connect } from 'umi';
+import { Avatar } from 'antd';
 import { Page } from 'components';
 import { IUserDetail } from './model';
 import styles from './index.less';
@@ -15,7 +16,7 @@ interface IProps {
   userDetail: IUserDetail;
 }
 
-const localeKey = (key) => {
+const localeKey = (key: string) => {
   switch (key) {
     case 'name':
       return '姓名';
@@ -38,7 +39,10 @@ const UserDetail: FC<IProps> = ({ userDetail }) => {
   const { data } = userDetail;
   const content = [];
   for (const key in data) {
-    if ({}.hasOwnProperty.call(data, key)) {
+    if (
+      {}.hasOwnProperty.call(data, key) &&
+      key !== ('_id' || 'avatar' || 'timestamp')
+    ) {
       content.push(
         key === 'isMale' ? (
           <div key={key} className={styles.item}>
@@ -54,6 +58,7 @@ const UserDetail: FC<IProps> = ({ userDetail }) => {
       );
     }
   }
+  content.unshift(<Avatar src={data.avatar} key="avatar"></Avatar>);
   return (
     <Page inner>
       <div className={styles.content}>{content}</div>

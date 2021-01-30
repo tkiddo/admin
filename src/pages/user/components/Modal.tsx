@@ -17,7 +17,7 @@ const formItemLayout = {
   },
 };
 
-const uploadUrl = `/upload`;
+const uploadUrl = `/admin/api/upload`;
 
 function beforeUpload(file: File) {
   const isLt200K = (file.size / 1024 / 1024 / 1024) * 100 < 200;

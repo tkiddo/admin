@@ -92,11 +92,11 @@ const User: ConnectRC<IProps> = ({
     });
   };
 
-  const onDeleteItem = (id: string) => {
+  const onDeleteItem = (_id: string) => {
     dispatch({
       type: 'user/delete',
       payload: {
-        id,
+        _id,
         callback: () => {
           handleRefresh({
             page:
