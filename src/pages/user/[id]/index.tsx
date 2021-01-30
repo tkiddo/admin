@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-15 14:50:02
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-30 15:37:58
+ * @LastEditTime: 2021-01-30 19:22:35
  * @Description:
  */
 import React, { FC } from 'react';
@@ -41,7 +41,9 @@ const UserDetail: FC<IProps> = ({ userDetail }) => {
   for (const key in data) {
     if (
       {}.hasOwnProperty.call(data, key) &&
-      key !== ('_id' || 'avatar' || 'timestamp')
+      key !== '_id' &&
+      key !== 'avatar' &&
+      key !== 'timerstamp'
     ) {
       content.push(
         key === 'isMale' ? (
