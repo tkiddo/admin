@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-13 14:37:18
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-28 15:31:33
+ * @LastEditTime: 2021-01-30 11:11:01
  * @Description:
  */
 import modelExtend from 'dva-model-extend';
@@ -107,10 +107,10 @@ const ExtendModel: CommonModelType<UserState> = {
       }
     },
     *update({ payload: { data, callback } }, { select, call, put }) {
-      const id = yield select(
+      const _id = yield select(
         ({ user }: { user: UserState }) => user.currentItem._id,
       );
-      const newUser = { ...data, id };
+      const newUser = { ...data, _id };
       const res = yield call(updateUser, newUser);
       if (res.success) {
         yield put({ type: 'hideModal' });

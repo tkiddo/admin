@@ -63,12 +63,6 @@ export default defineConfig({
       changeOrigin: true,
       pathRewrite: { '^/admin/api': '' },
     },
-    '/upload': {
-      target:
-        'https://express-9gf51cps1d7be8f0-1256164626.ap-guangzhou.app.tcloudbase.com/admin/api/upload',
-      changeOrigin: true,
-      pathRewrite: { '^/upload': '' },
-    },
   },
   extraBabelPlugins: [
     [
