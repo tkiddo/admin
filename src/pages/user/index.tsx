@@ -159,7 +159,7 @@ const User: ConnectRC<IProps> = ({
     filter: {
       ...query,
     },
-    onFilterChange: (value) => {
+    onFilterChange: (value: { [key: string]: string }) => {
       handleRefresh({
         ...value,
       });

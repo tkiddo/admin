@@ -1,6 +1,6 @@
 import React, { FC, useRef } from 'react';
 
-import { Form, Input, InputNumber, Radio, Modal } from 'antd';
+import { Form, Input, InputNumber, Radio, Modal, message } from 'antd';
 
 import { IUser } from '../model';
 
@@ -17,6 +17,16 @@ const formItemLayout = {
   },
 };
 
+const uploadUrl = `/upload`;
+
+function beforeUpload(file: File) {
+  const isLt200K = (file.size / 1024 / 1024 / 1024) * 100 < 200;
+  if (!isLt200K) {
+    message.error('图片必须小于 200KB!');
+  }
+  return isLt200K;
+}
+
 interface IProps {
   item: IUser | Record<string, unknown>;
   visible: boolean;
@@ -28,8 +38,8 @@ interface IProps {
 
 const UserModal: FC<IProps> = ({ item = {}, onOk, ...modalProps }) => {
   const formRef = useRef(null);
-  const handleUpload = (options: { imageUrl: string; fileID: string }) => {
-    formRef.current.setFieldsValue({ avatar: options.fileID });
+  const handleUpload = (imageUrl: string) => {
+    formRef.current.setFieldsValue({ avatar: imageUrl });
   };
 
   const handleOk = () => {
@@ -43,6 +53,14 @@ const UserModal: FC<IProps> = ({ item = {}, onOk, ...modalProps }) => {
       });
   };
 
+  const uploadProps = {
+    onOk: handleUpload,
+    initialImage: item.avatar ? (item.avatar as string) : '',
+    action: uploadUrl,
+    beforeUpload,
+    accept: 'image/jpg,image/jpeg,image/png',
+  };
+
   return (
     <Modal {...modalProps} onOk={handleOk}>
       <Form
@@ -53,11 +71,13 @@ const UserModal: FC<IProps> = ({ item = {}, onOk, ...modalProps }) => {
         }}
         layout="horizontal"
       >
-        <FormItem label={`头像`} hasFeedback {...formItemLayout}>
-          <Uploader
-            onOk={handleUpload}
-            imageUrl={item.avatar as string}
-          ></Uploader>
+        <FormItem
+          label={`头像`}
+          hasFeedback
+          {...formItemLayout}
+          rules={[{ required: true }]}
+        >
+          <Uploader {...uploadProps}></Uploader>
         </FormItem>
         <FormItem hidden name="avatar">
           <Input />
