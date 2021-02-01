@@ -37,6 +37,7 @@ const User: ConnectRC<IProps> = ({
     modalType,
     modalVisible,
     currentItem,
+    roles,
   },
   loading,
 }) => {
@@ -137,6 +138,7 @@ const User: ConnectRC<IProps> = ({
     destroyOnClose: true,
     maskClosable: false,
     confirmLoading: loading.effects[`user/${modalType}`] as boolean,
+    rolesOptions: roles,
     onCancel() {
       dispatch({
         type: 'user/hideModal',

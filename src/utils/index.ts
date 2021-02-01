@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2020-12-30 13:08:25
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-23 10:27:40
+ * @LastEditTime: 2021-02-01 15:05:17
  * @Description:
  */
 import { cloneDeep } from 'lodash';
@@ -66,7 +66,7 @@ export const queryAncestors = (
 
   const getPath = (current: IRoute) => {
     const currentParentId = hashMap.get(current[id])[parentId];
-    if (currentParentId) {
+    if (currentParentId !== '0') {
       result.push(hashMap.get(currentParentId));
       getPath(hashMap.get(currentParentId));
     }

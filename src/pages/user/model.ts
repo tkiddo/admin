@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-13 14:37:18
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-30 11:11:01
+ * @LastEditTime: 2021-02-01 15:52:26
  * @Description:
  */
 import modelExtend from 'dva-model-extend';
@@ -13,7 +13,7 @@ import api from 'api';
 
 export interface IUser {
   _id: string;
-  name: string;
+  username: string;
   nickName: string;
   phone: string;
   age: number;
@@ -21,6 +21,8 @@ export interface IUser {
   email: string;
   createTime: string;
   avatar: string;
+  password: string;
+  role: string;
 }
 
 export interface UserState {
@@ -29,6 +31,7 @@ export interface UserState {
   modalVisible: boolean;
   modalType: string;
   currentItem: IUser | Record<string, unknown>;
+  roles: string[];
 }
 
 const {
@@ -37,6 +40,7 @@ const {
   updateUser,
   removeUser,
   createUser,
+  queryRoles,
 } = api;
 
 const ExtendModel: CommonModelType<UserState> = {
@@ -47,9 +51,11 @@ const ExtendModel: CommonModelType<UserState> = {
     modalVisible: false,
     modalType: 'create',
     currentItem: {},
+    roles: [],
   },
   subscriptions: {
     setup({ dispatch, history }) {
+      dispatch({ type: 'queryRoles' });
       history.listen((location) => {
         if (pathToRegexp('/user').exec(location.pathname)) {
           const payload = (location as any).query || { page: 1, pageSize: 10 };
@@ -74,6 +80,17 @@ const ExtendModel: CommonModelType<UserState> = {
               pageSize: Number(payload.pageSize) || 10,
               total: data.total,
             },
+          },
+        });
+      }
+    },
+    *queryRoles({ payload }, { call, put }) {
+      const { data } = yield call(queryRoles);
+      if (data.length && data.length > 0) {
+        yield put({
+          type: 'updateState',
+          payload: {
+            roles: data.map((item) => item.name),
           },
         });
       }

@@ -1,3 +1,10 @@
+/*
+ * @Author: tkiddo
+ * @Date: 2021-01-15 14:50:02
+ * @LastEditors: tkiddo
+ * @LastEditTime: 2021-02-01 16:06:08
+ * @Description:
+ */
 import { Layout, Menu, Avatar } from 'antd';
 import React, { FC, memo, Fragment } from 'react';
 import classnames from 'classnames';
@@ -32,7 +39,7 @@ const Header: FC<IProps> = (props) => {
           </Fragment>
         }
       >
-        <Menu.Item key="SignOut">Sign out</Menu.Item>
+        <Menu.Item key="SignOut">登出</Menu.Item>
       </SubMenu>
     </Menu>,
   ];
