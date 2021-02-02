@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-05 10:32:23
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-02-01 16:04:58
+ * @LastEditTime: 2021-02-02 09:54:08
  * @Description:
  */
 import CommonModelType from '@/common/CommonModelType';
@@ -62,7 +62,7 @@ const AppModel: CommonModelType<AppModelState> = {
         const { data } = yield call(queryRouteList);
         const { permission, role } = user;
         let routeList = data;
-        if (role !== ROLE_TYPE.ADMIN || role !== ROLE_TYPE.DEVELOPER) {
+        if (role !== ROLE_TYPE.ADMIN && role !== ROLE_TYPE.DEVELOPER) {
           routeList = data.filter((item) => permission.includes(item.id));
         }
         store.set('routeList', routeList);
@@ -84,6 +84,7 @@ const AppModel: CommonModelType<AppModelState> = {
         store.set('user', {});
         store.set('isInit', false);
         store.set('token', '');
+        store.set('openKeys', []);
         yield put({ type: 'query' });
       } else {
         throw data;
