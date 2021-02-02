@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-02-02 14:38:14
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-02-02 15:28:33
+ * @LastEditTime: 2021-02-02 21:36:08
  * @Description:
  */
 
@@ -43,6 +43,13 @@ const RolesModel: CommonModelType<RolesState> = {
       const { data } = yield call(queryRoles, payload);
       if (data) {
         yield put({ type: 'updateState', payload: { list: data } });
+      }
+    },
+    *delete({ payload }, { call, put }) {
+      const { _id, callback } = payload;
+      const res = yield call(removeRole, { _id });
+      if (res.success) {
+        typeof callback === 'function' && callback();
       }
     },
   },
