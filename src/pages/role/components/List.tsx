@@ -2,11 +2,11 @@
  * @Author: tkiddo
  * @Date: 2021-02-02 14:44:26
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-02-02 15:53:59
+ * @LastEditTime: 2021-02-02 16:42:05
  * @Description:
  */
 import React, { FC } from 'react';
-import { List, Card } from 'antd';
+import { List } from 'antd';
 
 import { IRole } from '../model';
 import { IRoute } from 'common';
@@ -16,21 +16,25 @@ interface IProps {
   dist: IRoute[];
 }
 
-const genCard = (item: IRole, dist: IRoute[]) => (
-  <Card title={item.name}>
-    {item.permission.map((id: string) => {
-      const target = dist.find((d: IRoute) => d.id === id);
-      return <span> {target.zh} </span>;
-    })}
-  </Card>
-);
+const genItem = (item: IRole, dist: IRoute[]) => {
+  const filteredPermission = dist.filter((d) => item.permission.includes(d.id));
+  const nameArray = filteredPermission.map((d) => d.zh);
+  return (
+    <List.Item>
+      <List.Item.Meta
+        title={item.name}
+        description={`权限：${nameArray.join('，')}`}
+      ></List.Item.Meta>
+      <div style={{ color: '#8fc9fb', cursor: 'pointer' }}>更新</div>
+    </List.Item>
+  );
+};
 
 const ListComp: FC<IProps> = ({ data, dist }) => {
   return (
     <List
-      grid={{ gutter: 12, column: 3 }}
       dataSource={data}
-      renderItem={(item: IRole) => <List.Item>{genCard(item, dist)}</List.Item>}
+      renderItem={(item: IRole) => genItem(item, dist)}
     ></List>
   );
 };
