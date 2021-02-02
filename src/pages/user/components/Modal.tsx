@@ -104,7 +104,7 @@ const UserModal: FC<IProps> = ({
           hasFeedback
           {...formItemLayout}
         >
-          <Input />
+          <Input type="password" autoComplete="new-password" />
         </FormItem>
         <FormItem
           name="nickName"
@@ -160,7 +160,12 @@ const UserModal: FC<IProps> = ({
         >
           <Input />
         </FormItem>
-        <FormItem name="role" label={`角色`} {...formItemLayout}>
+        <FormItem
+          name="role"
+          label={`角色`}
+          {...formItemLayout}
+          rules={[{ required: true }]}
+        >
           <Select
             options={rolesOptions.map((item) => ({ label: item, value: item }))}
           ></Select>

@@ -26,7 +26,7 @@ const { Header, Sider, Bread } = MyLayout;
 const { Content } = Layout;
 
 const BaseLayout: FC = (props) => {
-  const permissions = store.get('permissions');
+  const permission = store.get('permission');
   const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
 
@@ -52,7 +52,7 @@ const BaseLayout: FC = (props) => {
   });
 
   const hasPermission = currentRoute
-    ? permissions.includes(currentRoute.id)
+    ? permission.includes(currentRoute.id)
     : false;
 
   const headerProps = {

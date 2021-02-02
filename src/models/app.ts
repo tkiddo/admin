@@ -66,7 +66,7 @@ const AppModel: CommonModelType<AppModelState> = {
           routeList = data.filter((item) => permission.includes(item.id));
         }
         store.set('routeList', routeList);
-        store.set('permissions', permission);
+        store.set('permission', permission);
         store.set('user', user);
         store.set('isInit', true);
         goDashboard();
@@ -80,7 +80,7 @@ const AppModel: CommonModelType<AppModelState> = {
       const data = yield call(logoutUser);
       if (data.success) {
         store.set('routeList', []);
-        store.set('permissions', []);
+        store.set('permission', []);
         store.set('user', {});
         store.set('isInit', false);
         store.set('token', '');
