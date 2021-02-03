@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-15 14:50:02
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-02-01 16:10:06
+ * @LastEditTime: 2021-02-03 09:23:16
  * @Description:
  */
 import React, { Fragment, memo } from 'react';
@@ -24,8 +24,7 @@ interface IProps {
   loading: boolean;
 }
 
-const Login: ConnectRC<IProps> = ({ loading }) => {
-  const dispatch = useDispatch();
+const Login: ConnectRC<IProps> = ({ loading, dispatch }) => {
   const handleOk = (values: LoginFormValue) => {
     dispatch({ type: 'login/login', payload: values });
   };

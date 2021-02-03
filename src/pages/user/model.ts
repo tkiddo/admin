@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-13 14:37:18
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-02-02 21:29:12
+ * @LastEditTime: 2021-02-03 11:16:21
  * @Description:
  */
 import modelExtend from 'dva-model-extend';
@@ -55,7 +55,6 @@ const ExtendModel: CommonModelType<UserState> = {
   },
   subscriptions: {
     setup({ dispatch, history }) {
-      dispatch({ type: 'queryRoles' });
       history.listen((location) => {
         if (pathToRegexp('/user').exec(location.pathname)) {
           const payload = (location as any).query || { page: 1, pageSize: 10 };
@@ -63,6 +62,7 @@ const ExtendModel: CommonModelType<UserState> = {
             type: 'query',
             payload,
           });
+          dispatch({ type: 'queryRoles' });
         }
       });
     },
@@ -84,67 +84,67 @@ const ExtendModel: CommonModelType<UserState> = {
         });
       }
     },
-    *queryRoles({ payload }, { call, put }) {
-      const { data } = yield call(queryRoles);
-      if (data.length && data.length > 0) {
+    *queryRoles({ payload }, { call, put, select }) {
+      const { list } = yield select((_: any) => _.role);
+      if (list.length > 0) {
         yield put({
           type: 'updateState',
           payload: {
-            roles: data.map((item) => item.name),
+            roles: list.map((item) => item.name),
           },
         });
+      } else {
+        const { data } = yield call(queryRoles);
+        if (data.length && data.length > 0) {
+          yield put({
+            type: 'updateState',
+            payload: {
+              roles: data.map((item) => item.name),
+            },
+          });
+        }
       }
     },
-    *multiDelete({ payload: { ids, callback } }, { call, put }) {
-      const res = yield call(removeUserList, { ids });
+    *multiDelete({ payload }, { call, put }) {
+      const res = yield call(removeUserList, payload);
       if (res.success) {
         yield put({ type: 'updateState', payload: { selectedRowKeys: [] } });
-        if (typeof callback === 'function') {
-          callback();
-        }
       } else {
         throw res;
       }
     },
-    *delete({ payload: { _id, callback } }, { call, put, select }) {
-      const res = yield call(removeUser, { _id });
+    *delete({ payload }, { call, put, select }) {
+      const res = yield call(removeUser, payload);
       const { selectedRowKeys } = yield select((_: any) => _.user);
       if (res.success) {
         yield put({
           type: 'updateState',
           payload: {
-            selectedRowKeys: selectedRowKeys.filter((_: any) => _ !== _id),
+            selectedRowKeys: selectedRowKeys.filter(
+              (_: any) => _ !== payload._id,
+            ),
           },
         });
-        if (typeof callback === 'function') {
-          callback();
-        }
       } else {
         throw res;
       }
     },
-    *update({ payload: { data, callback } }, { select, call, put }) {
+    *update({ payload }, { select, call, put }) {
       const _id = yield select(
         ({ user }: { user: UserState }) => user.currentItem._id,
       );
-      const newUser = { ...data, _id };
+      const newUser = { ...payload, _id };
       const res = yield call(updateUser, newUser);
       if (res.success) {
         yield put({ type: 'hideModal' });
-        if (typeof callback === 'function') {
-          callback();
-        }
       } else {
         throw res;
       }
     },
-    *create({ payload: { data, callback } }, { call, put }) {
-      const res = yield call(createUser, data);
+    *create({ payload }, { call, put }) {
+      const res = yield call(createUser, payload);
       if (res.success) {
         yield put({ type: 'hideModal' });
-        if (typeof callback === 'function') {
-          callback();
-        }
       } else {
         throw res;
       }

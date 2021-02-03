@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-02-02 14:38:14
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-02-02 21:36:08
+ * @LastEditTime: 2021-02-03 11:07:17
  * @Description:
  */
 
@@ -16,18 +16,22 @@ export interface IRole {
   permission: string[];
 }
 
-export interface RolesState {
+export interface RoleState {
   list: IRole[];
   currentItem: IRole | Record<string, unknown>;
+  modalVisible: boolean;
+  modalType: string;
 }
 
-const { queryRoles, removeRole, updateRole, cretaeRole } = api;
+const { queryRoles, removeRole, updateRole, createRole } = api;
 
-const RolesModel: CommonModelType<RolesState> = {
+const RoleModel: CommonModelType<RoleState> = {
   namespace: 'role',
   state: {
     list: [],
     currentItem: {},
+    modalVisible: false,
+    modalType: 'create',
   },
   subscriptions: {
     setup({ dispatch, history }) {
@@ -46,10 +50,31 @@ const RolesModel: CommonModelType<RolesState> = {
       }
     },
     *delete({ payload }, { call, put }) {
-      const { _id, callback } = payload;
-      const res = yield call(removeRole, { _id });
+      const res = yield call(removeRole, payload);
       if (res.success) {
-        typeof callback === 'function' && callback();
+        yield put({ type: 'user/queryRoles' });
+      } else {
+        throw res;
+      }
+    },
+    *create({ payload }, { call, put }) {
+      const res = yield call(createRole, payload);
+      if (res.success) {
+        yield put({ type: 'hideModal' });
+      } else {
+        throw res;
+      }
+    },
+    *update({ payload }, { select, call, put }) {
+      const _id = yield select(
+        ({ role }: { role: RoleState }) => role.currentItem._id,
+      );
+      const newRole = { ...payload, _id };
+      const res = yield call(updateRole, newRole);
+      if (res.success) {
+        yield put({ type: 'hideModal' });
+      } else {
+        throw res;
       }
     },
   },
@@ -60,7 +85,21 @@ const RolesModel: CommonModelType<RolesState> = {
         ...payload,
       };
     },
+    showModal(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+        modalVisible: true,
+      };
+    },
+    hideModal(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+        modalVisible: false,
+      };
+    },
   },
 };
 
-export default RolesModel;
+export default RoleModel;

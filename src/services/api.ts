@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-06 09:55:29
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-02-02 14:47:05
+ * @LastEditTime: 2021-02-03 10:45:17
  * @Description:
  */
 interface API {
@@ -27,7 +27,7 @@ const api: API = {
 
   queryRoles: '/roles',
   updateRole: 'POST /roles/:_id',
-  cretaeRole: 'POST /roles',
+  createRole: 'POST /roles',
   removeRole: 'delete /roles/:_id',
 };
 

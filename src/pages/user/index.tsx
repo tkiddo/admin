@@ -40,8 +40,8 @@ const User: ConnectRC<IProps> = ({
     roles,
   },
   loading,
+  dispatch,
 }) => {
-  const dispatch = useDispatch();
   const { pathname, query } = useLocation();
 
   const handleRefresh = (newQuery: { [key: string]: string | number }) => {
@@ -62,15 +62,14 @@ const User: ConnectRC<IProps> = ({
       type: 'user/multiDelete',
       payload: {
         ids: selectedRowKeys,
-        callback: () => {
-          handleRefresh({
-            page:
-              list.length === selectedRowKeys.length && pagination.current > 1
-                ? pagination.current - 1
-                : pagination.current,
-          });
-        },
       },
+    }).then(() => {
+      handleRefresh({
+        page:
+          list.length === selectedRowKeys.length && pagination.current > 1
+            ? pagination.current - 1
+            : pagination.current,
+      });
     });
   };
 
@@ -98,15 +97,14 @@ const User: ConnectRC<IProps> = ({
       type: 'user/delete',
       payload: {
         _id,
-        callback: () => {
-          handleRefresh({
-            page:
-              list.length === 1 && pagination.current > 1
-                ? pagination.current - 1
-                : pagination.current,
-          });
-        },
       },
+    }).then(() => {
+      handleRefresh({
+        page:
+          list.length === 1 && pagination.current > 1
+            ? pagination.current - 1
+            : pagination.current,
+      });
     });
   };
 
@@ -147,12 +145,9 @@ const User: ConnectRC<IProps> = ({
     onOk: (data: IUser) => {
       dispatch({
         type: `user/${modalType}`,
-        payload: {
-          data,
-          callback: () => {
-            handleRefresh({});
-          },
-        },
+        payload: data,
+      }).then(() => {
+        handleRefresh({});
       });
     },
   };

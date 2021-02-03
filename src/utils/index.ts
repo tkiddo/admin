@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2020-12-30 13:08:25
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-02-01 15:05:17
+ * @LastEditTime: 2021-02-03 10:11:38
  * @Description:
  */
 import { cloneDeep } from 'lodash';
@@ -22,7 +22,7 @@ export const queryLayout = (pathname: string): string => {
 export const arrayToTree = (
   array: IRoute[],
   id = 'id',
-  parentId = 'pid',
+  parentId = 'menuParentId',
   children = 'children',
 ): IRoute[] => {
   const result: IRoute[] = [];
