@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-15 14:50:02
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-30 19:22:35
+ * @LastEditTime: 2021-02-01 15:16:49
  * @Description:
  */
 import React, { FC } from 'react';
@@ -18,8 +18,8 @@ interface IProps {
 
 const localeKey = (key: string) => {
   switch (key) {
-    case 'name':
-      return '姓名';
+    case 'username':
+      return '用户名';
     case 'nickName':
       return '昵称';
     case 'age':
@@ -30,6 +30,10 @@ const localeKey = (key: string) => {
       return '邮箱';
     case 'createTime':
       return '创建时间';
+    case 'role':
+      return '角色';
+    case 'password':
+      return '密码';
     default:
       return key;
   }

@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-15 14:50:02
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-21 10:23:58
+ * @LastEditTime: 2021-02-01 15:04:23
  * @Description:
  */
 import { Layout } from 'antd';
@@ -26,7 +26,7 @@ const { Header, Sider, Bread } = MyLayout;
 const { Content } = Layout;
 
 const BaseLayout: FC = (props) => {
-  const permissions = store.get('permissions');
+  const permission = store.get('permission');
   const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
 
@@ -40,7 +40,7 @@ const BaseLayout: FC = (props) => {
           const { name, ...other } = item;
           return {
             ...other,
-            name: (item[lang] || {}).name || name,
+            name: item[lang] || name,
           };
         })
       : routeList;
@@ -52,7 +52,7 @@ const BaseLayout: FC = (props) => {
   });
 
   const hasPermission = currentRoute
-    ? permissions.visit.includes(currentRoute.id)
+    ? permission.includes(currentRoute.id)
     : false;
 
   const headerProps = {

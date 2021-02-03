@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-15 14:50:02
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-22 16:00:52
+ * @LastEditTime: 2021-02-03 09:23:16
  * @Description:
  */
 import React, { Fragment, memo } from 'react';
@@ -24,8 +24,7 @@ interface IProps {
   loading: boolean;
 }
 
-const Login: ConnectRC<IProps> = ({ loading }) => {
-  const dispatch = useDispatch();
+const Login: ConnectRC<IProps> = ({ loading, dispatch }) => {
   const handleOk = (values: LoginFormValue) => {
     dispatch({ type: 'login/login', payload: values });
   };
@@ -55,11 +54,11 @@ const Login: ConnectRC<IProps> = ({ loading }) => {
           </FormItem>
           <Row>
             <Button type="primary" htmlType="submit" loading={loading}>
-              Sign in
+              登录
             </Button>
             <p>
-              <span style={{ marginRight: '10px' }}>Username ：guest</span>
-              <span>Password ：guest</span>
+              <span style={{ marginRight: '10px' }}>用户名 ：guest</span>
+              <span>密码 ：guest</span>
             </p>
           </Row>
         </Form>

@@ -34,5 +34,6 @@ const iconMap: IMap = {
   user: <UserOutlined />,
   api: <ApiOutlined />,
   edit: <EditOutlined />,
+  role: <TeamOutlined />,
 };
 export default iconMap;

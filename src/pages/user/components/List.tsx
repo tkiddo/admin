@@ -46,9 +46,9 @@ const List: FC<IProps> = ({ onEditItem, onDeleteItem, ...tableProps }) => {
       render: (text: string) => <Avatar style={{ marginLeft: 8 }} src={text} />,
     },
     {
-      title: '姓名',
-      dataIndex: 'name',
-      key: 'name',
+      title: '用户名',
+      dataIndex: 'username',
+      key: 'username',
       render: (text: string, record: IUser) => (
         <Link to={`user/${record._id}`}>{text}</Link>
       ),
@@ -59,25 +59,14 @@ const List: FC<IProps> = ({ onEditItem, onDeleteItem, ...tableProps }) => {
       key: 'nickName',
     },
     {
-      title: '年龄',
-      dataIndex: 'age',
-      key: 'age',
-    },
-    {
-      title: '性别',
-      dataIndex: 'isMale',
-      key: 'isMale',
-      render: (text: boolean) => <span>{text ? '男' : '女'}</span>,
-    },
-    {
       title: '电话',
       dataIndex: 'phone',
       key: 'phone',
     },
     {
-      title: '邮箱',
-      dataIndex: 'email',
-      key: 'email',
+      title: '角色',
+      dataIndex: 'role',
+      key: 'role',
     },
     {
       title: '创建时间',
