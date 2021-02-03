@@ -1,6 +1,6 @@
 import React, { FC, useRef } from 'react';
 
-import { Form, Input, InputNumber, Radio, Modal, message } from 'antd';
+import { Form, Input, InputNumber, Radio, Modal, message, Select } from 'antd';
 
 import { IUser } from '../model';
 
@@ -32,11 +32,17 @@ interface IProps {
   visible: boolean;
   title: string;
   centered?: boolean;
+  rolesOptions: string[];
   onCancel(): void;
   onOk(item: IUser): void;
 }
 
-const UserModal: FC<IProps> = ({ item = {}, onOk, ...modalProps }) => {
+const UserModal: FC<IProps> = ({
+  item = {},
+  onOk,
+  rolesOptions,
+  ...modalProps
+}) => {
   const formRef = useRef(null);
   const handleUpload = (imageUrl: string) => {
     formRef.current.setFieldsValue({ avatar: imageUrl });
@@ -83,13 +89,22 @@ const UserModal: FC<IProps> = ({ item = {}, onOk, ...modalProps }) => {
           <Input />
         </FormItem>
         <FormItem
-          name="name"
+          name="username"
           rules={[{ required: true }]}
-          label={`姓名`}
+          label={`用户名`}
           hasFeedback
           {...formItemLayout}
         >
           <Input />
+        </FormItem>
+        <FormItem
+          name="password"
+          rules={[{ required: true }]}
+          label={`密码`}
+          hasFeedback
+          {...formItemLayout}
+        >
+          <Input type="password" autoComplete="new-password" />
         </FormItem>
         <FormItem
           name="nickName"
@@ -112,7 +127,7 @@ const UserModal: FC<IProps> = ({ item = {}, onOk, ...modalProps }) => {
             <Radio value={false}>女</Radio>
           </Radio.Group>
         </FormItem>
-        <FormItem name="age" label={`Age`} hasFeedback {...formItemLayout}>
+        <FormItem name="age" label={`年龄`} hasFeedback {...formItemLayout}>
           <InputNumber min={18} max={100} />
         </FormItem>
         <FormItem
@@ -144,6 +159,16 @@ const UserModal: FC<IProps> = ({ item = {}, onOk, ...modalProps }) => {
           {...formItemLayout}
         >
           <Input />
+        </FormItem>
+        <FormItem
+          name="role"
+          label={`角色`}
+          {...formItemLayout}
+          rules={[{ required: true }]}
+        >
+          <Select
+            options={rolesOptions.map((item) => ({ label: item, value: item }))}
+          ></Select>
         </FormItem>
       </Form>
     </Modal>

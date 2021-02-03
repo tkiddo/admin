@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-19 10:01:09
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-28 16:03:30
+ * @LastEditTime: 2021-02-01 15:19:52
  * @Description:
  */
 import React, { FC, useRef } from 'react';
@@ -81,8 +81,8 @@ const Filter: FC<IProps> = ({ onFilterChange, onAdd, filter, children }) => {
     <Form ref={formRef} initialValues={{ name, createTime: initialCreateTime }}>
       <Row gutter={24}>
         <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
-          <Form.Item name="name">
-            <Search placeholder={`姓名 搜索`} onSearch={handleSubmit} />
+          <Form.Item name="username">
+            <Search placeholder={`用户名 搜索`} onSearch={handleSubmit} />
           </Form.Item>
         </Col>
         <Col

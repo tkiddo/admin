@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-06 10:02:04
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-30 15:30:33
+ * @LastEditTime: 2021-02-01 14:28:04
  * @Description:
  */
 
@@ -32,13 +32,9 @@ const request = (options: AxiosRequestConfig): Promise<Result> => {
       url = url.slice(domain.length);
     }
 
-    console.log(urlMatch, domain, url);
-
     const match = parse(url);
 
     url = compile(url)(data);
-
-    console.log(match, url);
 
     for (const item of match) {
       if (item instanceof Object && item.name in cloneData) {

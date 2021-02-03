@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-05 10:32:23
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-21 10:27:00
+ * @LastEditTime: 2021-02-02 09:54:08
  * @Description:
  */
 import CommonModelType from '@/common/CommonModelType';
@@ -60,27 +60,13 @@ const AppModel: CommonModelType<AppModelState> = {
       } = yield call(queryUserInfo, payload);
       if (success && user) {
         const { data } = yield call(queryRouteList);
-        const { permissions } = user;
+        const { permission, role } = user;
         let routeList = data;
-        if (
-          permissions.role === ROLE_TYPE.ADMIN ||
-          permissions.role === ROLE_TYPE.DEVELOPER
-        ) {
-          permissions.visit = data.map((item: any) => item.id);
-        } else {
-          routeList = data.filter((item: any) => {
-            const cases = [
-              permissions.visit.includes(item.id),
-              item.mpid
-                ? permissions.visit.includes(item.mpid) || item.mpid === '-1'
-                : true,
-              item.bpid ? permissions.visit.includes(item.bpid) : true,
-            ];
-            return cases.every((_) => _);
-          });
+        if (role !== ROLE_TYPE.ADMIN && role !== ROLE_TYPE.DEVELOPER) {
+          routeList = data.filter((item) => permission.includes(item.id));
         }
         store.set('routeList', routeList);
-        store.set('permissions', permissions);
+        store.set('permission', permission);
         store.set('user', user);
         store.set('isInit', true);
         goDashboard();
@@ -94,10 +80,11 @@ const AppModel: CommonModelType<AppModelState> = {
       const data = yield call(logoutUser);
       if (data.success) {
         store.set('routeList', []);
-        store.set('permissions', { visit: [] });
+        store.set('permission', []);
         store.set('user', {});
         store.set('isInit', false);
         store.set('token', '');
+        store.set('openKeys', []);
         yield put({ type: 'query' });
       } else {
         throw data;
