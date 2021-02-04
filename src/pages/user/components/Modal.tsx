@@ -6,6 +6,8 @@ import { IUser } from '../model';
 
 import { Uploader } from 'components';
 
+import { IFileRes } from '@/components/Uploader';
+
 const FormItem = Form.Item;
 
 const formItemLayout = {
@@ -44,8 +46,9 @@ const UserModal: FC<IProps> = ({
   ...modalProps
 }) => {
   const formRef = useRef(null);
-  const handleUpload = (imageUrl: string) => {
-    formRef.current.setFieldsValue({ avatar: imageUrl });
+  const handleUpload = (file: IFileRes) => {
+    formRef.current.setFieldsValue({ avatar: file.tempFileURL });
+    formRef.current.setFieldsValue({ avatarID: file.fileID });
   };
 
   const handleOk = () => {
@@ -65,6 +68,7 @@ const UserModal: FC<IProps> = ({
     action: uploadUrl,
     beforeUpload,
     accept: 'image/jpg,image/jpeg,image/png',
+    data: { dir: 'avatar' },
   };
 
   return (
@@ -86,6 +90,9 @@ const UserModal: FC<IProps> = ({
           <Uploader {...uploadProps}></Uploader>
         </FormItem>
         <FormItem hidden name="avatar">
+          <Input />
+        </FormItem>
+        <FormItem hidden name="avatarID">
           <Input />
         </FormItem>
         <FormItem
