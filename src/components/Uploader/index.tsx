@@ -2,19 +2,25 @@
  * @Author: tkiddo
  * @Date: 2021-01-29 09:28:17
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-30 10:12:17
+ * @LastEditTime: 2021-02-04 10:44:14
  * @Description:
  */
 import React, { FC, useState } from 'react';
 import { Upload } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 
+export interface IFileRes {
+  tempFileURL: string;
+  fileID: string;
+}
+
 interface IProps {
-  onOk(imageUrl: string): void;
+  onOk(file: IFileRes): void;
   initialImage?: string;
   accept?: string;
   beforeUpload(file: File): boolean | Promise<File>;
   action: string;
+  data?: Record<string, string>;
 }
 
 const Uploader: FC<IProps> = ({ onOk, initialImage = '', ...uploadProps }) => {
@@ -36,14 +42,14 @@ const Uploader: FC<IProps> = ({ onOk, initialImage = '', ...uploadProps }) => {
     if (info.file.status === 'done') {
       // Get this url from response in real world.
       setLoading(false);
-      const tempUrl = info.file.response.tempFileURL;
-      setImageUrl(tempUrl);
-      onOk(tempUrl);
+      const { tempFileURL, fileID } = info.file.response;
+      setImageUrl(tempFileURL);
+      onOk({ fileID, tempFileURL });
     }
   };
   return (
     <Upload
-      name="img"
+      name="source"
       listType="picture-card"
       className="avatar-uploader"
       showUploadList={false}
