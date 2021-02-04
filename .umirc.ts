@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-04 09:00:32
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-01-29 18:40:07
+ * @LastEditTime: 2021-02-04 10:28:18
  * @Description:
  */
 import { defineConfig } from 'umi';
@@ -62,6 +62,11 @@ export default defineConfig({
         'https://express-9gf51cps1d7be8f0-1256164626.ap-guangzhou.app.tcloudbase.com/admin/api',
       changeOrigin: true,
       pathRewrite: { '^/admin/api': '' },
+    },
+    '/upload': {
+      target: 'http://localhost:3000/api/upload',
+      changeOrigin: true,
+      pathRewrite: { '^/upload': '' },
     },
   },
   extraBabelPlugins: [

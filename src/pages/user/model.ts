@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-13 14:37:18
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-02-03 11:16:21
+ * @LastEditTime: 2021-02-04 11:17:30
  * @Description:
  */
 import modelExtend from 'dva-model-extend';
@@ -21,6 +21,7 @@ export interface IUser {
   email: string;
   createTime: string;
   avatar: string;
+  avatarID: string;
   password: string;
   role: string;
 }
