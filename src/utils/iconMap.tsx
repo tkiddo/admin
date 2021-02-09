@@ -1,3 +1,10 @@
+/*
+ * @Author: tkiddo
+ * @Date: 2021-02-05 20:13:40
+ * @LastEditors: tkiddo
+ * @LastEditTime: 2021-02-09 10:46:36
+ * @Description:
+ */
 import {
   PayCircleOutlined,
   ShoppingCartOutlined,
@@ -12,6 +19,8 @@ import {
   LineOutlined,
   BarChartOutlined,
   AreaChartOutlined,
+  SettingOutlined,
+  MenuOutlined,
 } from '@ant-design/icons';
 
 import React, { ReactElement } from 'react';
@@ -35,5 +44,7 @@ const iconMap: IMap = {
   api: <ApiOutlined />,
   edit: <EditOutlined />,
   role: <TeamOutlined />,
+  system: <SettingOutlined />,
+  menu: <MenuOutlined />,
 };
 export default iconMap;

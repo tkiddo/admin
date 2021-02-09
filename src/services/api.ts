@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-06 09:55:29
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-02-03 10:45:17
+ * @LastEditTime: 2021-02-09 08:24:18
  * @Description:
  */
 interface API {
@@ -15,6 +15,9 @@ const api: API = {
   queryUserInfo: '/user',
 
   queryRouteList: '/routes',
+  updateRoute: 'POST /routes/:_id',
+  createRoute: 'POST /routes',
+  removeRoute: 'DELETE /routes/:id',
 
   queryUserList: '/users',
   queryUser: '/users/:_id',
