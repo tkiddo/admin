@@ -1,0 +1,83 @@
+<!--
+ * @Author: tkiddo
+ * @Date: 2021-02-23 09:50:52
+ * @LastEditors: tkiddo
+ * @LastEditTime: 2021-02-23 10:42:10
+ * @Description: 
+-->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Your App</title>
+  <script>
+      function collectData() {
+        const times = {};
+        let t = window.performance.timing;
+
+        // 优先使用 navigation v2  https://www.w3.org/TR/navigation-timing-2/
+        if (typeof window.PerformanceNavigationTiming === 'function') {
+          try {
+            const nt2Timing = performance.getEntriesByType('navigation')[0];
+            if (nt2Timing) {
+              t = nt2Timing;
+            }
+          } catch (err) {}
+        }
+
+        //重定向时间
+        times.redirectTime = t.redirectEnd - t.redirectStart;
+
+        //dns查询耗时
+        times.dnsTime = t.domainLookupEnd - t.domainLookupStart;
+
+        //TTFB 读取页面第一个字节的时间
+        times.ttfbTime = t.responseStart - t.navigationStart;
+
+        //DNS 缓存时间
+        times.appcacheTime = t.domainLookupStart - t.fetchStart;
+
+        //卸载页面的时间
+        times.unloadTime = t.unloadEventEnd - t.unloadEventStart;
+
+        //tcp连接耗时
+        times.tcpTime = t.connectEnd - t.connectStart;
+
+        //request请求耗时
+        times.reqTime = t.responseEnd - t.responseStart;
+
+        //解析dom树耗时
+        times.analysisTime = t.domComplete - t.domInteractive;
+
+        //白屏时间
+        times.blankTime = (t.domInteractive || t.domLoading) - t.fetchStart;
+
+        //domReadyTime
+        times.domReadyTime = t.domContentLoadedEventEnd - t.fetchStart;
+
+        const formData = new FormData();
+        formData.append('domReadyTime','dfsa')
+        
+        return formData;
+      }
+      function logData(){
+        navigator.sendBeacon('/test/api/performance',JSON.stringify({a:1}))
+      }
+      logData()
+      // window.addEventListener('unload', logData, false);
+
+//       function logData() {
+//     var client = new XMLHttpRequest();
+//     client.open("POST", "test/api/performance", false); // 第三个参数表明是同步的 xhr
+//     client.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+//     client.send({a:1});
+// }
+
+// logData()
+    
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+</html>

@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-04 09:00:32
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-02-04 10:28:18
+ * @LastEditTime: 2021-02-23 10:34:01
  * @Description:
  */
 import { defineConfig } from 'umi';
@@ -67,6 +67,11 @@ export default defineConfig({
       target: 'http://localhost:3000/api/upload',
       changeOrigin: true,
       pathRewrite: { '^/upload': '' },
+    },
+    '/test/api': {
+      arget: 'http://localhost:3000/api',
+      changeOrigin: true,
+      pathRewrite: { '^/test/api': '' },
     },
   },
   extraBabelPlugins: [

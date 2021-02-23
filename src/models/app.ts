@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-05 10:32:23
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-02-02 09:54:08
+ * @LastEditTime: 2021-02-23 09:56:30
  * @Description:
  */
 import CommonModelType from '@/common/CommonModelType';
