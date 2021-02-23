@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-04 09:00:32
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-02-04 10:28:18
+ * @LastEditTime: 2021-02-10 14:29:41
  * @Description:
  */
 import { defineConfig } from 'umi';
@@ -50,7 +50,7 @@ export default defineConfig({
   },
   // 启用按需加载，即把构建产物进行拆分，在需要的时候下载额外的 JS 再执行。
   dynamicImport: {
-    loading: 'components/Loader/index',
+    loading: '@/components/Loader',
   },
   // 忽略 moment 的 locale 文件，用于减少尺寸。
   ignoreMomentLocale: true,

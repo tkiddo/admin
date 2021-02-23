@@ -2,12 +2,12 @@
  * @Author: tkiddo
  * @Date: 2021-01-15 14:50:02
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-02-03 09:23:16
+ * @LastEditTime: 2021-02-10 14:30:50
  * @Description:
  */
 import React, { Fragment, memo } from 'react';
 import { Button, Row, Input, Form } from 'antd';
-import { connect, Loading, useDispatch, ConnectRC } from 'umi';
+import { connect, Loading, ConnectRC } from 'umi';
 
 import styles from './index.less';
 

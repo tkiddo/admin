@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-02-09 08:21:06
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-02-09 11:00:54
+ * @LastEditTime: 2021-02-10 14:32:56
  * @Description:
  */
 import React from 'react';
@@ -24,7 +24,11 @@ interface IProps {
   loading: Loading;
 }
 
-const Menu: ConnectRC<IProps> = ({ menu: { data, currentItem }, dispatch }) => {
+const Menu: ConnectRC<IProps> = ({
+  menu: { data, currentItem },
+  dispatch,
+  loading,
+}) => {
   const treeProps = {
     data: arrayToTree(data, 'id', 'breadcrumbParentId'),
     onSelect: (selectedItem: IRoute) => {
@@ -37,7 +41,7 @@ const Menu: ConnectRC<IProps> = ({ menu: { data, currentItem }, dispatch }) => {
     },
   };
   return (
-    <Page inner>
+    <Page inner loading={loading.effects['menu/query']}>
       <Row gutter={24}>
         <Col lg={12}>
           <Tree {...treeProps} />
