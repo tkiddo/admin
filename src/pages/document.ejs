@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-02-23 09:50:52
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-02-23 21:55:24
+ * @LastEditTime: 2021-02-24 09:53:30
  * @Description: 
 -->
 <!doctype html>
@@ -15,7 +15,7 @@
       function collectData() {
         const times = {};
         const t = performance.getEntriesByType('navigation')[0];
-        console.log(t)
+        
 
         //重定向时间
         times.redirectTime = t.redirectEnd - t.redirectStart;
@@ -47,13 +47,22 @@
         //domReadyTime
         times.domReadyTime = t.domContentLoadedEventEnd - t.fetchStart;
 
+        const formData = new FormData();
+        Object.keys(times).forEach((key) => {
+          let value = times[key];
+          if (typeof value !== 'string') {
+            // formData只能append string 或 Blob
+            value = JSON.stringify(value);
+          }
+          formData.append(key, value);
+        });
         
-        
-        return times;
+        return formData;
+
       }
-      console.log(JSON.stringify(collectData()))
+      console.log(collectData())
       function logData(){
-        console.log(navigator.sendBeacon('/admin/api/performance','a=1&b=2' ))
+        navigator.sendBeacon('/admin/api/performance',collectData())
       }
       logData()
       // window.addEventListener('unload', logData, false);
