@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-01-04 09:00:32
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-02-23 10:34:01
+ * @LastEditTime: 2021-03-05 12:27:55
  * @Description:
  */
 import { defineConfig } from 'umi';
@@ -56,6 +56,7 @@ export default defineConfig({
   ignoreMomentLocale: true,
   // 快速刷新（Fast Refresh），开发时可以保持组件状态，同时编辑提供即时反馈。
   fastRefresh: {},
+  plugins: [`${__dirname}/plugins.js`],
   proxy: {
     '/admin/api': {
       target:

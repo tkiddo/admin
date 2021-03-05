@@ -2,14 +2,7 @@ import React from 'react';
 
 import { Row, Col, Button, Popconfirm } from 'antd';
 
-import {
-  ConnectRC,
-  connect,
-  history,
-  useLocation,
-  Loading,
-  useDispatch,
-} from 'umi';
+import { ConnectRC, connect, history, useLocation, Loading } from 'umi';
 import { stringify } from 'qs';
 
 import { IUser, UserState } from './model';

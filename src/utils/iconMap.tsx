@@ -2,7 +2,7 @@
  * @Author: tkiddo
  * @Date: 2021-02-23 08:41:40
  * @LastEditors: tkiddo
- * @LastEditTime: 2021-02-23 08:41:56
+ * @LastEditTime: 2021-03-05 12:54:30
  * @Description:
  */
 import {
@@ -20,6 +20,8 @@ import {
   BarChartOutlined,
   AreaChartOutlined,
   SettingOutlined,
+  MonitorOutlined,
+  RocketOutlined,
 } from '@ant-design/icons';
 
 import React, { ReactElement } from 'react';
@@ -44,5 +46,7 @@ const iconMap: IMap = {
   edit: <EditOutlined />,
   role: <TeamOutlined />,
   system: <SettingOutlined />,
+  monitor: <MonitorOutlined />,
+  performance: <RocketOutlined />,
 };
 export default iconMap;
