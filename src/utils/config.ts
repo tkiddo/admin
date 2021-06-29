@@ -10,7 +10,8 @@ export default {
   siteName: 'admin',
   copyright: 'Ant Design Admin  ©2021 tkiddo',
   logoPath: isDevelopment ? '/logo.svg' : '/admin/logo.svg',
-  apiPrefix: '/admin/api',
+  apiPrefix:
+    'https://tkiddo-8gkkh0chf3632274-1256164626.ap-shanghai.app.tcloudbase.com/admin/api',
   layouts: [
     {
       name: 'base',
